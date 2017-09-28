@@ -1,0 +1,292 @@
+<html><head><title>popcorn-engine logfile</title>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<style>body
+{
+	padding-top: 44px;
+	padding-bottom: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
+	background: #bbbbbb;
+	margin: 0px;
+	color: #000000;
+	font-family: Consolas, Courier;
+	font-size: 10pt;
+}
+.header2
+{
+	font-size: 72px;
+	left: 5px;
+	color: #8a98b0;
+	position: absolute;
+	top: -22px
+}
+.header
+{
+	left: 0px;
+	overflow: hidden;
+	width: 100%;
+	color: #ffffff;
+	font-family: Verdana, Arial;
+	position: absolute;
+	top: 0px;
+	height: 44px;
+	background-color: #7b8aa6
+}
+.pagetitle
+{
+	font-size: 22px;
+	z-index: 100;
+	left: 5px;
+	color: #ffffff;
+	position: absolute;
+	top: 14px;
+}
+.copyright
+{
+	font-size: 10px;
+	z-index: 60;
+	left: -8px;
+	width: 100%;
+	color: #acb6c8;
+	position: absolute;
+	top: 1px;
+	text-align: right;
+	text-decoration: none;
+}
+.build
+{
+	font-size: 12px;
+	color: #eeeeee;
+	text-decoration: none;
+}
+a.header1:link
+{
+	font-size: 30px;
+	z-index: 50;
+	left: -8px;
+	width: 100%;
+	color: #a0acc0;
+	position: absolute;
+	top: 6px;
+	text-align: right;
+	text-decoration: none;
+}
+a.header1:visited
+{
+	font-size: 30px;
+	z-index: 50;
+	left: -8px;
+	width: 100%;
+	color: #a0acc0;
+	position: absolute;
+	top: 6px;
+	text-align: right;
+	text-decoration: none;
+}
+a.header1:hover
+{
+	font-size: 30px;
+	z-index: 50;
+	left: -8px;
+	width: 100%;
+	color: #acb6c8;
+	position: absolute;
+	top: 6px;
+	text-align: right;
+	text-decoration: none;
+}
+.log_caller { color: #666666; }
+.dll { color: #800070; }
+.M   { color: #000000; background-color: #DDDDDD; white-space: pre; }
+.W   { color: #000000; background-color: #FFAA33; white-space: pre; }
+.E   { color: #FFFFFF; background-color: #DD1100; white-space: pre; }
+.EC  { color: #FFFFFF; background-color: #DD0000; white-space: pre; }
+.EI  { color: #FFFFFF; background-color: #EE0000; white-space: pre; }
+.EF  { color: #FFFFFF; background-color: #FF0000; white-space: pre; }
+</style>
+</head>
+<body>
+<div class=header id=header>
+	<a class=header1 id=header1 href="http://www.popcornfx.com/">www.popcornfx.com</a>
+	<div class=copyright id=copyright>Copyright (c) Persistant Studios 2010-2017</div>
+	<div class=header2 id=header2>PopcornFX</div>
+	<div class=pagetitle id=pagetitle>PopcornFX logfile. <font class=build>build 1.11.3.33951, Tue Apr 4 11:17:51 2017 +0200</font></i></div>
+</div><div class=M><center>... STARTUP ...</center></div>
+<div class=M>[BOOT]> License: "DiscoveryPlugin"</div>
+<div class=M>[BOOT]> PopcornFX SDK build config: ...... RELEASE</div>
+<div class=M>[BOOT]> Has debug asserts: .................... NO</div>
+<div class=M>[BOOT]> Has release asserts: ................. YES</div>
+<div class=M>[BOOT]> Has anonymous asserts: ................ NO</div>
+<div class=M>[BOOT]> Has containers monitoring: ............ NO</div>
+<div class=M>[BOOT]> Has iterators debug checks: ........... NO</div>
+<div class=M>[BOOT]> Mem debug level: ....................... 0</div>
+<div class=M>[BOOT]> Has default mem allocators: .......... YES</div>
+<div class=M>[BOOT]> |</div>
+<div class=M>[BOOT]> | ... BOOTING Kernel ...</div>
+<div class=M>[BOOT]> [Kernel_Callstack         ]:Startup        41 usec         0 bytes      0 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_PerfMonitor       ]:Startup         3 usec       134 bytes      1 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Mem               ]:Startup         0 usec        99 bytes      1 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Containers        ]:Startup         0 usec         0 bytes      1 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Asserts           ]:Startup         0 usec         0 bytes      1 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Buffer            ]:Startup        13 usec      8219 bytes      9 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_String            ]:Startup         2 usec      2102 bytes     11 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_RTTI              ]:Startup         0 usec         0 bytes     11 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Threads           ]:Startup        23 usec         0 bytes     12 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_ThreadPool        ]:Startup         0 usec         0 bytes     12 KbTotal</div>
+<div class=M>[Kernel_CapsCpu]> Multi-Core system, Multi-threaded cores</div>
+<div class=M>[Kernel_CapsCpu]>      Logical processors reported by OS : 8</div>
+<div class=M>[Kernel_CapsCpu]>      Visible logical processors        : 8</div>
+<div class=M>[Kernel_CapsCpu]>      Cores                             : 4</div>
+<div class=M>[Kernel_CapsCpu]>      Physical packages                 : 1</div>
+<div class=M>[Kernel_CapsCpu]> ---- Package 0 -------------------------</div>
+<div class=M>[Kernel_CapsCpu]>      Vendor                            : GenuineIntel</div>
+<div class=M>[Kernel_CapsCpu]>      CPU Name                          : "Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz"</div>
+<div class=M>[Kernel_CapsCpu]>      Frequency                         : 4010.0 MHz (4007.655 measured)</div>
+<div class=M>[Kernel_CapsCpu]>      Microarchitecture                 : 5E, 64-bits</div>
+<div class=M>[Kernel_CapsCpu]>      Extensions                        : VirMode DBG     PageSz4 RDTSC   MSR     PAE     MCE     CXCHG8  APIC    SEP     MTRR    PGE     </div>
+<div class=M>[Kernel_CapsCpu]>                                          MCA     CMOV    PAT     PSE36   CLFlush DebugSt ACPI    FXSR    SSnoop  HThread ThMon   ThMon2  </div>
+<div class=M>[Kernel_CapsCpu]>                                          IA64Ext PBE     ExecDis DTES64  MONITOR DS_CPL  VMEXT   ESpdStp CXCHG16 XTPR    PDCM    x2APIC  </div>
+<div class=M>[Kernel_CapsCpu]>                                          XSave   OsXSave TSCInv  MOVBE   POPCNT  CLMUL   BMI1    BMI2    F16C    AES     FMA3    RDRAND  </div>
+<div class=M>[Kernel_CapsCpu]>                                          MMX     SSE     SSE2    SSE3    SSSE3   SSE4_1  SSE4_2  AVX     AVX2    </div>
+<div class=M>[Kernel_CapsCpu]>      CPUID Leaves                      : 00000016-00000008</div>
+<div class=M>[Kernel_CapsCpu]>      CACHE TYPE                  SIZE         ASSOCIATIVITY  LINE-SIZE</div>
+<div class=M>[Kernel_CapsCpu]>         L1 Data cache              32 KB             8 ways   64-bytes</div>
+<div class=M>[Kernel_CapsCpu]>         L1 Instruction cache       32 KB             8 ways   64-bytes</div>
+<div class=M>[Kernel_CapsCpu]>         L2 Unified cache          256 KB             4 ways   64-bytes</div>
+<div class=M>[Kernel_CapsCpu]>         L3 Unified cache         8192 KB            16 ways   64-bytes</div>
+<div class=M>[Kernel_CapsCpu]>      PROCESSOR  APIC_ID  PACKAGE     CORE   THREAD    CACHES</div>
+<div class=M>[Kernel_CapsCpu]>              0     0000        0        0        0    L1D[0] L1I[0] L2[0] L3[0]</div>
+<div class=M>[Kernel_CapsCpu]>              1     0001        0        0        1    L1D[0] L1I[0] L2[0] L3[0]</div>
+<div class=M>[Kernel_CapsCpu]>              2     0002        0        1        0    L1D[1] L1I[1] L2[1] L3[0]</div>
+<div class=M>[Kernel_CapsCpu]>              3     0003        0        1        1    L1D[1] L1I[1] L2[1] L3[0]</div>
+<div class=M>[Kernel_CapsCpu]>              4     0004        0        2        0    L1D[2] L1I[2] L2[2] L3[0]</div>
+<div class=M>[Kernel_CapsCpu]>              5     0005        0        2        1    L1D[2] L1I[2] L2[2] L3[0]</div>
+<div class=M>[Kernel_CapsCpu]>              6     0006        0        3        0    L1D[3] L1I[3] L2[3] L3[0]</div>
+<div class=M>[Kernel_CapsCpu]>              7     0007        0        3        1    L1D[3] L1I[3] L2[3] L3[0]</div>
+<div class=M>[BOOT]> [Kernel_CapsCpu           ]:Startup      4571 usec      1321 bytes     13 KbTotal</div>
+<div class=M>[Kernel_CapsMem]> Detecting memory:</div>
+<div class=M>[Kernel_CapsMem]>      MEMORY        :          USED     AVAILABLE         TOTAL</div>
+<div class=M>[Kernel_CapsMem]>      physical      :     8456.0 Mb     7796.0 Mb    16252.0 Mb</div>
+<div class=M>[Kernel_CapsMem]>      page file     :    14679.0 Mb     4516.0 Mb    19196.0 Mb</div>
+<div class=M>[Kernel_CapsMem]>      virtual       :     3216.0 Mb 134214512.0 Mb 134217728.0 Mb</div>
+<div class=M>[Kernel_CapsMem]>      Address range : 00007FFFFFFEFFFF - 0000000000010000</div>
+<div class=M>[BOOT]> [Kernel_CapsMem           ]:Startup        31 usec        99 bytes     13 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Profiler          ]:Startup         8 usec      2629 bytes     16 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Checksum          ]:Startup         0 usec         0 bytes     16 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Compression       ]:Startup         0 usec         0 bytes     16 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_File              ]:Startup        10 usec        35 bytes     16 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Plugins           ]:Startup         0 usec        83 bytes     16 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Scheduler         ]:Startup       284 usec     38686 bytes     54 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Resources         ]:Startup         1 usec       107 bytes     54 KbTotal</div>
+<div class=M>[BOOT]> |</div>
+<div class=M>[BOOT]> | ... BOOTING BaseObject ...</div>
+<div class=M>[BOOT]> [BaseObject               ]:Startup        47 usec     30159 bytes     84 KbTotal</div>
+<div class=M>[BOOT]> [BaseObject_HBOScope      ]:Startup        24 usec     99827 bytes    182 KbTotal</div>
+<div class=M>[BOOT]> |</div>
+<div class=M>[BOOT]> | ... BOOTING EngineUtils ...</div>
+<div class=M>[BOOT]> [EngineUtils_Random       ]:Startup         4 usec      5137 bytes    187 KbTotal</div>
+<div class=M>[BOOT]> [EngineUtils_Timeline     ]:Startup         3 usec         0 bytes    187 KbTotal</div>
+<div class=M>[BOOT]> [EngineUtils_Actions      ]:Startup       102 usec     21316 bytes    208 KbTotal</div>
+<div class=M>[BOOT]> [EngineUtils_Core         ]:Startup        58 usec     13478 bytes    221 KbTotal</div>
+<div class=M>[BOOT]> [EngineUtils_Samplers     ]:Startup        31 usec      7274 bytes    228 KbTotal</div>
+<div class=M>[BOOT]> [EngineUtils_Skeleton     ]:Startup         3 usec      3471 bytes    232 KbTotal</div>
+<div class=M>[BOOT]> |</div>
+<div class=M>[BOOT]> | ... BOOTING Compiler ...</div>
+<div class=M>[BOOT]> [Compiler                 ]:Startup       197 usec    158089 bytes    386 KbTotal</div>
+<div class=M>[BOOT]> |</div>
+<div class=M>[BOOT]> | ... BOOTING Geometrics ...</div>
+<div class=M>[BOOT]> [Geometrics_Skeleton      ]:Startup         0 usec         0 bytes    386 KbTotal</div>
+<div class=M>[BOOT]> [Geometrics_Mesh          ]:Startup        54 usec      8152 bytes    394 KbTotal</div>
+<div class=M>[Geometrics_MeshDeformers]> CPU Dispatch mapped implementation of Skeletal Skinner to 'SIMD'</div>
+<div class=M>[BOOT]> [Geometrics_MeshDeformers ]:Startup        43 usec     44221 bytes    438 KbTotal</div>
+<div class=M>[BOOT]> [Geometrics_MeshResource  ]:Startup        12 usec      4686 bytes    442 KbTotal</div>
+<div class=M>[BOOT]> [Geometrics_MeshKdTree    ]:Startup         0 usec         0 bytes    442 KbTotal</div>
+<div class=M>[BOOT]> [Geometrics_Shapes        ]:Startup        56 usec     10984 bytes    453 KbTotal</div>
+<div class=M>[BOOT]> [Geometrics_Colliders     ]:Startup         0 usec         0 bytes    453 KbTotal</div>
+<div class=M>[BOOT]> [Geometrics_Billboards    ]:Startup         0 usec         0 bytes    453 KbTotal</div>
+<div class=M>[BOOT]> [Geometrics_RectangleList ]:Startup         0 usec      4329 bytes    458 KbTotal</div>
+<div class=M>[BOOT]> |</div>
+<div class=M>[BOOT]> | ... BOOTING Imaging ...</div>
+<div class=M>[BOOT]> [Imaging_Images           ]:Startup       249 usec      4491 bytes    462 KbTotal</div>
+<div class=M>[BOOT]> |</div>
+<div class=M>[BOOT]> | ... BOOTING Particles ...</div>
+<div class=M>[Particles]> Script bindings setup : 2.73 ms</div>
+<div class=M>[BOOT]> [Particles                ]:Startup      4302 usec   1387600 bytes   1817 KbTotal</div>
+<div class=M>[BOOT]> [CompilerBackend_CPU_Emulation]:Startup         4 usec     10327 bytes   1824 KbTotal</div>
+<div class=M>[Kernel_Plugins]> Registering module "CompilerBackend_CPU_Emulation" to handler "hh_compiler".</div>
+<div class=M>[Kernel_Plugins]> Registering module "PopcornFX-Image codec dds" to handler "im_codec".</div>
+<div class=M>[Kernel_Plugins]> Registering module "PopcornFX-Image codec png" to handler "im_codec".</div>
+<div class=M>[Kernel_Plugins]> Registering module "PopcornFX-Image codec targa" to handler "im_codec".</div>
+<div class=M>[Kernel_Plugins]> Registering module "PopcornFX-Image codec jpeg" to handler "im_codec".</div>
+<div class=M>[BOOT]> [UnityPlugin              ]:Startup         0 usec         0 bytes   1824 KbTotal</div>
+<div class=M>[UnityPlugin]> Startup PKFX</div>
+<div class=M>[UnityPlugin]> GraphicsEventD3D11</div>
+<div class=M>[UnityPlugin]> _PopcornFXStartup</div>
+<div class=M>[UnityPlugin]> GraphicsEventD3D11</div>
+<div class=M>[UnityPlugin]> Added Assets/StreamingAssets/PackFx for watching.</div>
+<div class=M>[UnityPlugin]> Exploring pack Assets/StreamingAssets/PackFx...</div>
+<div class=M>[UnityPlugin]>   -> Particles/ButterFly_sceneIntersect.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/CampFire_Events.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/CarHud_TextSampler.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/CoallBurn_SpatialLayers.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/ElectricalBall_pCoords.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Explosion_vrandFunction.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/FireFly_Attractor.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Fish_Flocking.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/FlameThrower_Ribbon.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Grenade_MeshRenderer.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Lightning_FpsConstraint.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Link_lerpFunction.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/MagicSpell_Dynamic.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/MagicSpell_Static.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Orb_rotateFunction.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Pentacle_AnimTrack.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Rain_ViewPosition.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Snow_TurbSampler.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Soul_parentFunction.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Spark_ExternEvents.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Spark_Triggered.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/WorldMap_TextureSampler.pkfx</div>
+<div class=E>[BaseObject]> Skipping unknown HBO field "Autostart"...</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/CParticleEvolver_Script_5FC3B145' (Evolve-sub)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/CParticleEvolver_Script_5FC3B145' (Evolve-cst)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/CParticleEvolver_Script_0DD7066D' (Evolve-sub)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/CParticleEvolver_Script_0DD7066D' (Evolve-cst)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/CParticleDescriptor_CF42AB20' (spawn)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/CParticleDescriptor_AE135B2A' (spawn)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/CParticleEvolver_Script_F33F4D7A' (Evolve-sub)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/CParticleEvolver_Script_F33F4D7A' (Evolve-cst)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/CParticleDescriptor_D9B5C557' (spawn)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/Script_1' (Evolve-sub)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/Script_1' (Evolve-cst)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/CParticleDescriptor_F3969EF3' (spawn)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/Script_2' (Evolve-sub)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/Script_2' (Evolve-cst)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Soul_parentFunction.pkfx/CParticleDescriptor_1C17533F' (spawn)</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=E>[BaseObject]> Skipping unknown HBO field "Autostart"...</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Pentacle_AnimTrack.pkfx/Script_1' (Evolve-sub)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Pentacle_AnimTrack.pkfx/Script_1' (Evolve-cst)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Pentacle_AnimTrack.pkfx/Script_2' (Evolve-sub)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Pentacle_AnimTrack.pkfx/Script_2' (Evolve-cst)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Pentacle_AnimTrack.pkfx/CParticleDescriptor_8FDDF740' (spawn)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Pentacle_AnimTrack.pkfx/CParticleDescriptor_1AB546E5' (spawn)</div>
+<div class=M>[Particles]> No suitable script IR cache found. Recompiling script 'Particles/Pentacle_AnimTrack.pkfx/CParticleDescriptor_092F5A6E' (spawn)</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=M>[UnityPlugin]> _PopcornFXStartup</div>
+<div class=M>[UnityPlugin]> GraphicsEventD3D11</div>
+<div class=M>[UnityPlugin]> _PopcornFXStartup</div>
+<div class=M>[UnityPlugin]> GraphicsEventD3D11</div>
+<div class=M>[UnityPlugin]> _PopcornFXStartup</div>
+<div class=M>[UnityPlugin]> GraphicsEventD3D11</div>
+<div class=M>[UnityPlugin]> _PopcornFXStartup</div>
+<div class=M>[UnityPlugin]> GraphicsEventD3D11</div>
+<div class=M><center>... SHUTDOWN ...</center></div></body></html>
