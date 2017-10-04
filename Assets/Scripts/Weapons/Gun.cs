@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR.InteractionSystem;
 
 public class Gun : EquippableSkillItem {
 
@@ -19,8 +20,8 @@ public class Gun : EquippableSkillItem {
     }
 
     public AudioClip[] GunshotSounds;
+    public int remainingBullets = 6;       // the number of times you can shoot before the gun drops
     public float cooldownTime = 2.0f;   // The length of time between successive shots, in seconds.
-    public bool isAuto = false;         // True if it keeps firing while the trigger is pulled.
     public float range = 20.0f;
     public Transform firingPoint;       // Where the raycast for bullet collision will be fired from.
     public ParticleSystem muzzleFlash;  // The muzzle flash particle system.
@@ -28,7 +29,8 @@ public class Gun : EquippableSkillItem {
     [Range(0, 1)] public float VibrationStrength; // Strength of vibration when firing.
 
     AudioSource audioSource;
-    bool isFiring;
+    bool isFiring;  // true when gun is currently firing; this length of time is cooldownTime
+    bool droppedAfterEmpty; // true when the gun is dropped after it's out of bullets and then fired
 
     protected override void Start()
     {
@@ -38,14 +40,23 @@ public class Gun : EquippableSkillItem {
         {
             Debug.LogError("No Audio Source component found in " + gameObject.name + "!");
         }
-
         
     }
 
     public void Fire()
     {
-        if (!isFiring)
+        if(remainingBullets == 0)
         {
+            // out of bullets!
+            // click noise!
+            // drop gun, do not allow it to be picked up, destroy gun
+            if(currentHand.controller != null)
+            {
+                Drop(currentHand);
+            }
+        } else if (!isFiring)
+        {
+            remainingBullets--;
             StartCoroutine(Shoot());
             RaycastHit hit;
 
@@ -81,6 +92,51 @@ public class Gun : EquippableSkillItem {
             currentHand.controller.TriggerHapticPulse((ushort)Mathf.Lerp(0, 3999, VibrationStrength));
             yield return null;
         }
+    }
+
+    protected override void OnHandHoverBegin(Hand hand)
+    {
+        if (!equipped && !droppedAfterEmpty)
+        {
+            if (hand.controller != null)
+            {
+                if (hand.controller.GetPress(PickUpButton))
+                {
+                    StartCoroutine(Equipping());
+                    hand.AttachObject(gameObject, attachmentFlags, attachmentPoint);
+                }
+            }
+        }
+    }
+
+    protected override void HandHoverUpdate(Hand hand)
+    {
+        if (!droppedAfterEmpty && hand.controller != null)
+        {
+            if (hand.controller.GetPressDown(PickUpButton))
+            {
+                StartCoroutine(Equipping());
+                hand.AttachObject(gameObject, attachmentFlags, attachmentPoint);
+            }
+        }
+    }
+
+    protected override void CheckToDetach(Hand hand)
+    {
+        if (equipped && hand.controller != null)
+        {
+            if (hand.controller.GetPressUp(DropButton))
+            {
+                Drop(hand);
+            }
+        }
+    }
+
+    protected virtual void Drop(Hand hand)
+    {
+        droppedAfterEmpty = true;
+        currentHand.DetachObject(gameObject, false);
+        Destroy(gameObject, 2.0f);
     }
 }
 
