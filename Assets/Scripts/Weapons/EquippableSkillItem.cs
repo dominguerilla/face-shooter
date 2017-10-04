@@ -15,6 +15,8 @@ public class EquippableSkillItem : MonoBehaviour {
     public UnityEvent OnSkillButton;
     public virtual string attachmentPoint { get { return ""; } set { } }
     public virtual ulong ActivateSkillButton { get { return SteamVR_Controller.ButtonMask.ApplicationMenu; } }
+    public virtual ulong PickUpButton { get { return SteamVR_Controller.ButtonMask.Trigger; } }
+    public virtual ulong DropButton { get { return SteamVR_Controller.ButtonMask.Grip; } }
 
     public virtual Hand.AttachmentFlags attachmentFlags {
         get { return Hand.AttachmentFlags.ParentToHand | Hand.AttachmentFlags.DetachFromOtherHand | Hand.AttachmentFlags.SnapOnAttach; }
@@ -36,13 +38,27 @@ public class EquippableSkillItem : MonoBehaviour {
     }
 
     
+    protected virtual void OnHandHoverBegin(Hand hand)
+    {
+        if (!equipped)
+        {
+            if(hand.controller != null)
+            {
+                if (hand.controller.GetPress(PickUpButton))
+                {
+                    StartCoroutine(Equipping());
+                    hand.AttachObject(gameObject, attachmentFlags, attachmentPoint);
+                }
+            }
+        }
+    }
+
     protected virtual void HandHoverUpdate(Hand hand)
     {
         if (hand.controller != null)
         {
-            if (hand.controller.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
+            if (hand.controller.GetPressDown(PickUpButton))
             {
-                Debug.Log("Attachment point: " + attachmentPoint);
                 StartCoroutine(Equipping());
                 hand.AttachObject(gameObject, attachmentFlags, attachmentPoint);
             }
@@ -84,13 +100,14 @@ public class EquippableSkillItem : MonoBehaviour {
     {
         if(equipped && hand.controller != null)
         {
-            if (hand.controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
+            if (hand.controller.GetPressUp(DropButton))
             {
                 hand.DetachObject(gameObject, false);
             }
         }
     }
 
+    // this is necessary so that the item's skill doesn't activate when picking it up for the first time
     protected IEnumerator Equipping()
     {
         isBeingPickedUp = true;

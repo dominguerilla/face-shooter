@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class FaceEnemyBehaviours  {
 
+
     static void SwitchToRandomFace(FaceEnemy face, Material[] mats)
     {
         int index = UnityEngine.Random.Range(0, mats.Length);
@@ -43,6 +44,8 @@ public static class FaceEnemyBehaviours  {
     /// <summary>
     /// Moves the face back and forth between its position and the specified bounce point, then makes it attack the target once the max
     /// number of bounces has been reached.
+    /// 
+    /// Set it to -1 so that it bounces forever!
     /// </summary>
     public static IEnumerator TravelBackAndForthThenAttack(FaceEnemy face, Transform target, Vector3 bouncePoint, int numberOfBounces = 1)
     {
@@ -50,13 +53,16 @@ public static class FaceEnemyBehaviours  {
         Vector3 startPoint = face.transform.position;
 
         yield return new WaitForEndOfFrame();
-        for(int i = 0; i < numberOfBounces; i++)
+        int counter = 0;
+        while (counter != numberOfBounces)
         {
             SwitchToRandomFace(face, face.awakeMats);
 
             Vector3 destination = goingToBouncePoint ? bouncePoint : startPoint;
             yield return DirectMoveTo(face, destination);
             goingToBouncePoint = !goingToBouncePoint;
+
+            counter++;
         }
 
         SwitchToRandomFace(face, face.chargingMats);
