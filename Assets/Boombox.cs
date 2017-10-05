@@ -17,7 +17,7 @@ public class Boombox : MonoBehaviour, IShootable {
     
     private void Awake()
     {
-        onPlay = new UnityEvent();
+        //onPlay = new UnityEvent();
     }
 
     // Use this for initialization

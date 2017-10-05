@@ -20,7 +20,7 @@ public class Gun : EquippableSkillItem {
     }
 
     public AudioClip[] GunshotSounds;
-    public int remainingBullets = 6;       // the number of times you can shoot before the gun drops
+    public int remainingBullets = 6;       // the number of times you can shoot before the gun drops. Make it -1 for infinite bullets!
     public float cooldownTime = 2.0f;   // The length of time between successive shots, in seconds.
     public float range = 20.0f;
     public Transform firingPoint;       // Where the raycast for bullet collision will be fired from.
@@ -30,7 +30,7 @@ public class Gun : EquippableSkillItem {
 
     AudioSource audioSource;
     bool isFiring;  // true when gun is currently firing; this length of time is cooldownTime
-    bool droppedAfterEmpty; // true when the gun is dropped after it's out of bullets and then fired
+    bool wasDropped; // true when the gun is dropped 
 
     protected override void Start()
     {
@@ -96,7 +96,7 @@ public class Gun : EquippableSkillItem {
 
     protected override void OnHandHoverBegin(Hand hand)
     {
-        if (!equipped && !droppedAfterEmpty)
+        if (!equipped && !wasDropped)
         {
             if (hand.controller != null)
             {
@@ -111,7 +111,7 @@ public class Gun : EquippableSkillItem {
 
     protected override void HandHoverUpdate(Hand hand)
     {
-        if (!droppedAfterEmpty && hand.controller != null)
+        if (!wasDropped && hand.controller != null)
         {
             if (hand.controller.GetPressDown(PickUpButton))
             {
@@ -134,9 +134,14 @@ public class Gun : EquippableSkillItem {
 
     protected virtual void Drop(Hand hand)
     {
-        droppedAfterEmpty = true;
+        wasDropped = true;
         currentHand.DetachObject(gameObject, false);
-        Destroy(gameObject, 2.0f);
+        //Destroy(gameObject, 2.0f); // GunSpawner will handle this!
+    }
+
+    public bool isEmptyOrDropped()
+    {
+        return wasDropped || remainingBullets == 0;
     }
 }
 
