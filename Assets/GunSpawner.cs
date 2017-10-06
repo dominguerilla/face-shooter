@@ -9,6 +9,7 @@ public class GunSpawner : MonoBehaviour {
     public float timeBetweenSpawns = 3.0f;
     public float spawnDisplacement = 1.0f;
     public float maxGunsSpawned = 1;
+    public Vector3 maxTrajectoryDeviation = new Vector3(0.1f, 0.1f, 0.1f);
 
     List<Gun> spawnedGuns;
     bool started;
@@ -35,7 +36,6 @@ public class GunSpawner : MonoBehaviour {
     {
         if (!started)
         {
-            Debug.Log("Started spawning guns!");
             StartCoroutine(SpawnGuns());
         }
     }
@@ -45,7 +45,7 @@ public class GunSpawner : MonoBehaviour {
         started = true;
         while (true)
         {
-            if(spawnedGuns.Count < maxGunsSpawned)
+            if(maxGunsSpawned < 0 || spawnedGuns.Count < maxGunsSpawned)
                 StartCoroutine(SpawnGun());
             yield return new WaitForSeconds(timeBetweenSpawns);
         }
@@ -58,6 +58,10 @@ public class GunSpawner : MonoBehaviour {
         spawnedGuns.Add(gun);
         Rigidbody gunBody = gunObj.GetComponent<Rigidbody>();
         yield return new WaitForFixedUpdate();
-        gunBody.AddForce(transform.TransformDirection(Vector3.up) * launchForce);
+        float deltaX = Random.Range(-maxTrajectoryDeviation.x, maxTrajectoryDeviation.x);
+        float deltaY = Random.Range(-maxTrajectoryDeviation.y, maxTrajectoryDeviation.y);
+        float deltaZ = Random.Range(-maxTrajectoryDeviation.z, maxTrajectoryDeviation.z);
+        Vector3 deviation = new Vector3(deltaX, deltaY, deltaZ);
+        gunBody.AddForce(transform.TransformDirection(Vector3.up + deviation) * launchForce);
     }
 }

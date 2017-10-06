@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR.InteractionSystem;
 
+/// <summary>
+/// Meant to be launched by a GunSpawner. Destroys itself if not picked up after being launched.
+/// </summary>
 public class Gun : EquippableSkillItem {
 
     public override ulong ActivateSkillButton
@@ -12,25 +15,21 @@ public class Gun : EquippableSkillItem {
             return SteamVR_Controller.ButtonMask.Trigger;
         }
     }
-
-    public override string attachmentPoint
-    {
-        get { return "item_revolver_attachpoint"; }
-        set { }
-    }
-
+    
     public AudioClip[] GunshotSounds;
-    public int remainingBullets = 6;       // the number of times you can shoot before the gun drops. Make it -1 for infinite bullets!
-    public float cooldownTime = 2.0f;   // The length of time between successive shots, in seconds.
-    public float range = 20.0f;
     public Transform firingPoint;       // Where the raycast for bullet collision will be fired from.
     public ParticleSystem muzzleFlash;  // The muzzle flash particle system.
     public float VibrationLength = 0.25f;
     [Range(0, 1)] public float VibrationStrength; // Strength of vibration when firing.
 
-    AudioSource audioSource;
-    bool isFiring;  // true when gun is currently firing; this length of time is cooldownTime
-    bool wasDropped; // true when the gun is dropped 
+    public int remainingBullets = 6;       // the number of times you can shoot before the gun drops. Make it -1 for infinite bullets!
+    public float cooldownTime = 2.0f;   // The length of time between successive shots, in seconds.
+    public float range = 20.0f;
+    public float bulletForce = 1.0f;
+
+    protected AudioSource audioSource;
+    protected bool isFiring;  // true when gun is currently firing; this length of time is cooldownTime
+    protected bool wasDropped; // true when the gun is dropped 
 
     protected override void Start()
     {
@@ -43,18 +42,28 @@ public class Gun : EquippableSkillItem {
         
     }
 
-    public void Fire()
+
+
+    protected virtual void Drop(Hand hand)
     {
-        if(remainingBullets == 0)
+        wasDropped = true;
+        currentHand.DetachObject(gameObject, false);
+        //Destroy(gameObject, 2.0f); // GunSpawner will handle this!
+    }
+
+    public virtual void Fire()
+    {
+        if (remainingBullets == 0)
         {
             // out of bullets!
             // click noise!
             // drop gun, do not allow it to be picked up, destroy gun
-            if(currentHand.controller != null)
+            if (currentHand.controller != null)
             {
                 Drop(currentHand);
             }
-        } else if (!isFiring)
+        }
+        else if (!isFiring)
         {
             remainingBullets--;
             StartCoroutine(Shoot());
@@ -73,11 +82,16 @@ public class Gun : EquippableSkillItem {
                 {
                     shootable.OnFire();
                 }
+
+                if (hit.rigidbody)
+                {
+                    hit.rigidbody.AddForceAtPosition(bulletForce * firingPoint.forward, hit.point);
+                }
             }
         }
     }
 
-    IEnumerator Shoot()
+    protected virtual IEnumerator Shoot()
     {
         isFiring = true;
         yield return new WaitForSeconds(cooldownTime);
@@ -85,10 +99,12 @@ public class Gun : EquippableSkillItem {
     }
 
     // https://steamcommunity.com/app/358720/discussions/0/405693392914144440/
-    IEnumerator Vibration()
+    protected virtual IEnumerator Vibration()
     {
-        for(float i = 0; i < VibrationLength; i += Time.deltaTime)
+        for (float i = 0; i < VibrationLength; i += Time.deltaTime)
         {
+            if (currentHand == null || currentHand.controller == null)
+                yield break;
             currentHand.controller.TriggerHapticPulse((ushort)Mathf.Lerp(0, 3999, VibrationStrength));
             yield return null;
         }
@@ -132,16 +148,10 @@ public class Gun : EquippableSkillItem {
         }
     }
 
-    protected virtual void Drop(Hand hand)
-    {
-        wasDropped = true;
-        currentHand.DetachObject(gameObject, false);
-        //Destroy(gameObject, 2.0f); // GunSpawner will handle this!
-    }
-
-    public bool isEmptyOrDropped()
+    public virtual bool isEmptyOrDropped()
     {
         return wasDropped || remainingBullets == 0;
     }
+
 }
 

@@ -108,7 +108,7 @@ public class EquippableSkillItem : MonoBehaviour {
     }
 
     // this is necessary so that the item's skill doesn't activate when picking it up for the first time
-    protected IEnumerator Equipping()
+    protected virtual IEnumerator Equipping()
     {
         isBeingPickedUp = true;
         yield return new WaitForEndOfFrame();
