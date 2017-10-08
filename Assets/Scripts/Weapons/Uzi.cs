@@ -35,7 +35,7 @@ public class Uzi : Gun {
         }
     }
 
-    // make it so that this doesn't fire while you're equipping it
+    // TODO: make it so that this doesn't fire while you're equipping it
     protected override IEnumerator Equipping()
     {
         isBeingPickedUp = true;

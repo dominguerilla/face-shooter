@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GunSpawner : MonoBehaviour {
 
-    public GameObject GunPrefab;
+    public GameObject[] GunPrefabs;
     public float launchForce = 5.0f;
     public float timeBetweenSpawns = 3.0f;
     public float spawnDisplacement = 1.0f;
@@ -23,10 +23,10 @@ public class GunSpawner : MonoBehaviour {
     {
         foreach(Gun gun in spawnedGuns)
         {
-            if (gun.isEmptyOrDropped())
+            if (gun.isEmptyOrDropped() || 
+                (!gun.isEquipped() && !movedSinceLastCheck(gun.gameObject)))
             {
-                spawnedGuns.Remove(gun);
-                Destroy(gun.gameObject, 2.0f);
+                DespawnGun(gun);
                 break;
             }
         }
@@ -52,8 +52,9 @@ public class GunSpawner : MonoBehaviour {
     }
 
     IEnumerator SpawnGun()
-    {
-        GameObject gunObj = Instantiate(GunPrefab, this.transform.position + (Vector3.up * spawnDisplacement), this.transform.rotation);
+    {   
+        int index = Random.Range(0, GunPrefabs.Length);
+        GameObject gunObj = Instantiate(GunPrefabs[index], this.transform.position + (Vector3.up * spawnDisplacement), this.transform.rotation);
         Gun gun = gunObj.GetComponent<Gun>();
         spawnedGuns.Add(gun);
         Rigidbody gunBody = gunObj.GetComponent<Rigidbody>();
@@ -63,5 +64,23 @@ public class GunSpawner : MonoBehaviour {
         float deltaZ = Random.Range(-maxTrajectoryDeviation.z, maxTrajectoryDeviation.z);
         Vector3 deviation = new Vector3(deltaX, deltaY, deltaZ);
         gunBody.AddForce(transform.TransformDirection(Vector3.up + deviation) * launchForce);
+    }
+
+
+    // returns true if the gun moved since the last check
+    bool movedSinceLastCheck(GameObject gun)
+    {
+        PositionTracker tracker = gun.GetComponent<PositionTracker>();
+        if (tracker != null && tracker.lastCheckedPosition != gun.transform.position)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    void DespawnGun(Gun gun)
+    {
+        spawnedGuns.Remove(gun);
+        Destroy(gun.gameObject, 2.0f);
     }
 }

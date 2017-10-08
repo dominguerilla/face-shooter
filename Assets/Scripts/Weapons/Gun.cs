@@ -53,21 +53,10 @@ public class Gun : EquippableSkillItem {
 
     public virtual void Fire()
     {
-        if (remainingBullets == 0)
-        {
-            // out of bullets!
-            // click noise!
-            // drop gun, do not allow it to be picked up, destroy gun
-            if (currentHand.controller != null)
-            {
-                Drop(currentHand);
-            }
-        }
-        else if (!isFiring)
+        if (!isFiring)
         {
             remainingBullets--;
             StartCoroutine(Shoot());
-            RaycastHit hit;
 
             int randIndex = Random.Range(0, GunshotSounds.Length - 1);
             audioSource.clip = GunshotSounds[randIndex];
@@ -75,6 +64,7 @@ public class Gun : EquippableSkillItem {
             muzzleFlash.Play();
             StartCoroutine(Vibration());
 
+            RaycastHit hit;
             if (Physics.Raycast(firingPoint.position, firingPoint.forward, out hit, range))
             {
                 IShootable shootable = hit.collider.GetComponent(typeof(IShootable)) as IShootable;
@@ -86,6 +76,17 @@ public class Gun : EquippableSkillItem {
                 if (hit.rigidbody)
                 {
                     hit.rigidbody.AddForceAtPosition(bulletForce * firingPoint.forward, hit.point);
+                }
+            }
+
+            if (remainingBullets == 0)
+            {
+                // out of bullets!
+                // click noise!
+                // drop gun, do not allow it to be picked up, destroy gun
+                if (currentHand.controller != null)
+                {
+                    Drop(currentHand);
                 }
             }
         }
@@ -151,6 +152,14 @@ public class Gun : EquippableSkillItem {
     public virtual bool isEmptyOrDropped()
     {
         return wasDropped || remainingBullets == 0;
+    }
+
+    private void OnDestroy()
+    {
+        if (currentHand)
+        {
+            currentHand.DetachObject(gameObject, false);
+        }
     }
 
 }

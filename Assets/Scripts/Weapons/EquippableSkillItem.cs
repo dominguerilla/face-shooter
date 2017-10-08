@@ -115,4 +115,9 @@ public class EquippableSkillItem : MonoBehaviour {
         isBeingPickedUp = false;
     }
 
+    public bool isEquipped()
+    {
+        return equipped;
+    }
+
 }
