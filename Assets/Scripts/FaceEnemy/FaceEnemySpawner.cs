@@ -44,8 +44,6 @@ public class FaceEnemySpawner : MonoBehaviour {
 	void Start () {
         spawnedEnemies = new List<FaceEnemy>();
         spawnPositions = GetPositions(SpawnPattern);
-        Boombox boombox = GameObject.FindObjectOfType<Boombox>();
-        boombox.onPlay.AddListener(SpawnFaces);
 	}
 
     public void SpawnFaces()
