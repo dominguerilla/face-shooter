@@ -4,31 +4,30 @@ using UnityEngine;
 
 /// <summary>
 /// Each Campaign is made of multiple Waves.
-/// Each Wave assigns a population of monsters to each spawnpoint.
+/// Each Wave object represents a state of the FaceEnemySpawner.
 /// </summary>
-public class Wave  {
-    
-    public class MonsterPopulation
-    {
-        public GameObject type;        // the monster prefab
-        public int min;   // the minimum number of this monster
-        public int max;   // the maximum number of this monster
-    }
+[System.Serializable]
+public class Wave {
 
-    public float timeBetweenMonsters = 1.0f;    // the amount of time to pass before spawning each monster
-    public float timeTillNextWave = 3.0f;       // the amount of time to wait after the last wave spawns
-    public bool spawnNextWhenAllDie = false;     // if true, will wait till all Monsters die before spawning the next wave.
-    public List<Monster> livingMonsters;               // the monsters spawned from this wave
+    public GameObject FaceEnemyPrefab;
+    public GameObject target;
 
-    // <a spawnpoint index and a monsterpopulation.>
-    // The spawnpoint index is the array of SpawnPoints where the monsters will come from.
-    // For instance, index 0 could mean a group of SpawnPoints that are in the north,
-    // while index 1 could mean a group of SpawnPoints in the west.
-    public Dictionary<int, MonsterPopulation> MonsterPopulations;
+    public FaceEnemySpawner.SPAWN_PATTERNS SpawnPattern;
+    public int numberOfEnemies = 3;
+    public float activeDelayTime;
+    // Sphere spawning stuff
+    public float minSpawnDistanceFromCenter = 1.0f;
+    public float maxSpawnDistanceFromCenter = 10.0f;
+    // Line spawning stuff
+    public float maxLineLength = 10.0f;
 
-    public Wave()
-    {
-        MonsterPopulations = new Dictionary<int, MonsterPopulation>();
-        livingMonsters = new List<Monster>();
-    }
+    public FaceEnemySpawner.SPAWN_BEHAVIOURS SpawnBehaviour;
+    public float attackSpeed = 10.0f;
+    public float stoppingDistance = 0.5f;
+    public float timeAsleep = 1.0f;
+    public float timeAwake = 1.5f;
+
+    // for bounce pattern
+    public Transform bouncePoint;
+    public int numberOfBounces = 2;
 }

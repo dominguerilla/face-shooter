@@ -77,8 +77,7 @@ public abstract class Monster : MonoBehaviour, IFlashable, IShootable {
     // though death is similar, the specifics are what makes us unique
     protected virtual void Die()
     {
-        if (wave != null)
-            wave.livingMonsters.Remove(this);
+        
     }
 
     #region INTERFACE IMPLEMENTATIONS

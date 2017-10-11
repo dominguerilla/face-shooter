@@ -13,7 +13,7 @@ public class Radio : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         source = GetComponent<AudioSource>();
-        GameMaster.instance.OnStartWave.AddListener(AnnounceNextWave);
+        //GameMaster.instance.OnStartWave.AddListener(AnnounceNextWave);
 	}
 
     public void AnnounceNextWave()

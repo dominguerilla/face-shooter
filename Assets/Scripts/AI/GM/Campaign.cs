@@ -10,6 +10,6 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class Campaign : MonoBehaviour{
 
-    public Wave[] Waves { get; protected set; }             // the GM will spawn each Wave according to the specification
+    public Wave[] Waves;             // the GM will spawn each Wave according to the specification
 
 }

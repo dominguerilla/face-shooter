@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[System.Serializable]
 public class FaceEnemySpawner : MonoBehaviour {
     public enum SPAWN_PATTERNS
     {
@@ -37,23 +38,59 @@ public class FaceEnemySpawner : MonoBehaviour {
     public Transform bouncePoint;
     public int numberOfBounces = 2;
 
-    List<FaceEnemy> spawnedEnemies;
+    List<FaceEnemy> spawnedEnemies; //when enemies are spawned, all are added to this list. if destroyed, the entry will be null.
     List<Vector3> spawnPositions;
 
 	// Use this for initialization
 	void Start () {
         spawnedEnemies = new List<FaceEnemy>();
-        spawnPositions = GetPositions(SpawnPattern);
 	}
 
     public void SpawnFaces()
     {
-        foreach(Vector3 position in spawnPositions)
+        spawnPositions = GetPositions(SpawnPattern);
+        foreach (Vector3 position in spawnPositions)
         {
             FaceEnemy enemy = CreateEnemy(position);
             InitializeEnemy(enemy);
         }
         StartCoroutine(ActivateEnemies());
+    }
+
+    public List<FaceEnemy> getSpawnedEnemies()
+    {
+        return spawnedEnemies;
+    }
+
+    public void SetAttributes(Wave wave)
+    {
+        this.FaceEnemyPrefab = wave.FaceEnemyPrefab;
+        this.target = wave.target;
+
+        this.SpawnPattern = wave.SpawnPattern;
+        this.numberOfEnemies = wave.numberOfEnemies;
+        this.activeDelayTime = wave.activeDelayTime;
+
+        // Sphere spawning stuff
+        this.minSpawnDistanceFromCenter = wave.minSpawnDistanceFromCenter;
+        this.maxSpawnDistanceFromCenter = wave.maxSpawnDistanceFromCenter;
+        // Line spawning stuff
+        this.maxLineLength = wave.maxLineLength;
+
+        this.SpawnBehaviour = wave.SpawnBehaviour;
+        this.attackSpeed = wave.attackSpeed;
+        this.stoppingDistance = wave.stoppingDistance;
+        this.timeAsleep = wave.timeAsleep;
+        this.timeAwake = wave.timeAwake;
+
+        // for bounce pattern
+        this.bouncePoint = wave.bouncePoint;
+        this.numberOfBounces = wave.numberOfBounces;
+    }
+
+    public void ResetSpawner()
+    {
+        spawnedEnemies = new List<FaceEnemy>();
     }
 
     FaceEnemy CreateEnemy(Vector3 position)
@@ -72,12 +109,6 @@ public class FaceEnemySpawner : MonoBehaviour {
         enemy.attackSpeed = this.attackSpeed;
         enemy.stoppingDistance = this.stoppingDistance;
         enemy.SetBehavior(GetEnemyBehaviour(enemy, SpawnBehaviour));
-        // testing circular movement
-        /*
-        GameObject center = GameObject.Find("Center");
-        Vector3 centerPos = new Vector3(center.transform.position.x, center.transform.position.y, 0);
-        enemy.SetBehavior(FaceEnemyBehaviours.SpiralThenAttack(enemy, target.transform, enemy.transform.position + centerPos));
-        */
     }
 
     IEnumerator ActivateEnemies()

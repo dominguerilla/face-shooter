@@ -55,7 +55,8 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     public void OnFire()
     {
         StopCoroutine(behavior);
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
+        Destroy(this.gameObject);
     }
 
     private void OnDestroy()
