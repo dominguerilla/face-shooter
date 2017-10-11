@@ -35,7 +35,7 @@ public class FaceEnemySpawner : MonoBehaviour {
     public float timeAwake = 1.5f;
     
     // for bounce pattern
-    public Transform bouncePoint;
+    public float bounceRadius;
     public int numberOfBounces = 2;
 
     List<FaceEnemy> spawnedEnemies; //when enemies are spawned, all are added to this list. if destroyed, the entry will be null.
@@ -84,7 +84,7 @@ public class FaceEnemySpawner : MonoBehaviour {
         this.timeAwake = wave.timeAwake;
 
         // for bounce pattern
-        this.bouncePoint = wave.bouncePoint;
+        this.bounceRadius = wave.bounceRadius;
         this.numberOfBounces = wave.numberOfBounces;
     }
 
@@ -141,7 +141,7 @@ public class FaceEnemySpawner : MonoBehaviour {
             case SPAWN_BEHAVIOURS.WAKE_THEN_ATTACK:
                 return FaceEnemyBehaviours.WakeThenAttack(enemy, target.transform);
             case SPAWN_BEHAVIOURS.TRAVEL_BACK_AND_FORTH_THEN_ATTACK:
-                return FaceEnemyBehaviours.TravelBackAndForthThenAttack(enemy, target.transform, bouncePoint.position, numberOfBounces);
+                return FaceEnemyBehaviours.TravelBackAndForthThenAttack(enemy, target.transform, bounceRadius, numberOfBounces);
             default:
                 return null;
         }

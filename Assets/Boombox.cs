@@ -12,7 +12,6 @@ public class Boombox : MonoBehaviour, IShootable {
     public bool DEBUG_MODE = false;
 
     AudioSource audioSrc;
-    FaceEnemy[] enemies;
     bool isActivated = false;
     
     private void Awake()
@@ -22,7 +21,6 @@ public class Boombox : MonoBehaviour, IShootable {
 
     // Use this for initialization
     void Start () {
-        enemies = GameObject.FindObjectsOfType<FaceEnemy>();
         audioSrc = GetComponent<AudioSource>();
 
         if (activateOnStart)

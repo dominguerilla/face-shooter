@@ -5,7 +5,7 @@ using UnityEditor;
 //[CustomEditor(typeof(FaceEnemySpawner))]
 [CanEditMultipleObjects]
 public class FaceEnemySpawnerEditor : Editor {
-
+    /*
     SerializedProperty p_FaceEnemyPrefab;
     SerializedProperty p_target;
     SerializedProperty p_SpawnPattern;
@@ -40,6 +40,7 @@ public class FaceEnemySpawnerEditor : Editor {
         p_timeAsleep = this.serializedObject.FindProperty("timeAsleep");
         p_timeAwake = this.serializedObject.FindProperty("timeAwake");
     }
+    */
     /*
     public override void OnInspectorGUI()
     {

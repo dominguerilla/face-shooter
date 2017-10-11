@@ -42,16 +42,16 @@ public static class FaceEnemyBehaviours  {
     }
 
     /// <summary>
-    /// Moves the face back and forth between its position and the x and z of the specified bounce point, then makes it attack the target once the max
+    /// Moves the face back and forth around its bounce point, then makes it attack the target once the max
     /// number of bounces has been reached.
     /// 
     /// Set it to -1 so that it bounces forever!
     /// </summary>
-    public static IEnumerator TravelBackAndForthThenAttack(FaceEnemy face, Transform target, Vector3 bouncePoint, int numberOfBounces = 1)
+    public static IEnumerator TravelBackAndForthThenAttack(FaceEnemy face, Transform target, float radius, int numberOfBounces = 1)
     {
         bool goingToBouncePoint = true;
-        Vector3 startPoint = face.transform.position;
-        Vector3 xAndZBouncePoint = new Vector3(bouncePoint.x, face.transform.position.y, bouncePoint.z);
+        Vector3 point1 = new Vector3(face.transform.position.x + radius, face.transform.position.y, face.transform.position.z);
+        Vector3 point2 = new Vector3(face.transform.position.x - radius, face.transform.position.y, face.transform.position.z);
 
         yield return new WaitForEndOfFrame();
         int counter = 0;
@@ -59,7 +59,7 @@ public static class FaceEnemyBehaviours  {
         {
             SwitchToRandomFace(face, face.awakeMats);
 
-            Vector3 destination = goingToBouncePoint ? xAndZBouncePoint : startPoint;
+            Vector3 destination = goingToBouncePoint ? point2 : point1;
             yield return DirectMoveTo(face, destination);
             goingToBouncePoint = !goingToBouncePoint;
 

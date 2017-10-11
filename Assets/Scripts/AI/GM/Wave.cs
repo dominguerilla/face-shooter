@@ -28,6 +28,6 @@ public class Wave {
     public float timeAwake = 1.5f;
 
     // for bounce pattern
-    public Transform bouncePoint;
+    public float bounceRadius = 10.0f;
     public int numberOfBounces = 2;
 }

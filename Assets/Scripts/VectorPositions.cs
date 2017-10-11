@@ -37,7 +37,7 @@ public class VectorPositions {
     public static List<Vector3> GetPositionsInAVerticalLine(Vector3 center, int numberOfPoints, float maxLength)
     {
         // establish the position of this spawner as the center of the line
-        Vector3 topLimit = center + new Vector3(0, maxLength / 2.0f, 0);
+        //Vector3 topLimit = center + new Vector3(0, maxLength / 2.0f, 0);
         Vector3 bottomLimit = center - new Vector3(0, maxLength / 2.0f, 0);
 
         List<Vector3> positions = new List<Vector3>();
