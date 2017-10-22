@@ -15,6 +15,7 @@ public static class FaceEnemyBehaviours  {
     {
         face.keepFacingPlayer = false;
         face.gameObject.SetActive(false);
+        GameObject.Destroy(face.gameObject);
     }
 
     public static IEnumerator DirectMoveTo(FaceEnemy face, Vector3 target)

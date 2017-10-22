@@ -37,6 +37,20 @@ public class GameMaster : MonoBehaviour {
     public Campaign campaign;
     public FaceEnemySpawner spawner;
 
+    private void Start()
+    {
+        if (!campaign)
+        {
+            campaign = GetComponent<Campaign>();
+            if (!campaign)
+            {
+                Debug.LogError("No Campaign found on " + gameObject.name + "!");
+            }
+        }
+
+        
+    }
+
     public void StartCampaign()
     {
         StartCoroutine(CampaignWaves());
@@ -47,13 +61,9 @@ public class GameMaster : MonoBehaviour {
         foreach(Wave wave in campaign.Waves)
         {
             spawner.SetAttributes(wave);
-            print("Wave number of enemies: " + wave.numberOfEnemies);
-            print("Spawner number of enemies: " + spawner.numberOfEnemies);
             spawner.SpawnFaces();
-            print("Spawning wave.");
             // wait till all enemies are killed
             List<FaceEnemy> enemies = spawner.getSpawnedEnemies();
-            print("Found " + enemies.Count + " in this wave.");
             while (true)
             {
                 foreach(FaceEnemy enemy in enemies)
@@ -61,7 +71,6 @@ public class GameMaster : MonoBehaviour {
                     if(enemy == null)
                     {
                         enemies.Remove(enemy);
-                        print(enemies.Count + " left.");
                         break;
                     }
                 }
@@ -71,7 +80,6 @@ public class GameMaster : MonoBehaviour {
                 }
                 yield return new WaitForEndOfFrame();
             }
-            print("Wave ended.");
             spawner.ResetSpawner();
         }
     }

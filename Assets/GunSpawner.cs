@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GunSpawner : MonoBehaviour {
 
+    public bool activateOnStart = false;
     public GameObject[] GunPrefabs;
     public float launchForce = 5.0f;
     public float timeBetweenSpawns = 3.0f;
@@ -14,9 +15,12 @@ public class GunSpawner : MonoBehaviour {
     List<Gun> spawnedGuns;
     bool started;
 
+
 	// Use this for initialization
 	void Start () {
-        spawnedGuns = new List<Gun>();	
+        spawnedGuns = new List<Gun>();
+        if (activateOnStart)
+            StartSpawning();
 	}
 
     private void Update()

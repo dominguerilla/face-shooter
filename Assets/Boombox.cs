@@ -36,7 +36,7 @@ public class Boombox : MonoBehaviour, IShootable {
     {
         if (isActivated)
         {
-            yield break;
+            yield break; 
         }
 
         yield return new WaitForSeconds(delay);
