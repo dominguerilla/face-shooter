@@ -26,30 +26,14 @@ public class Gun : EquippableSkillItem {
     public float cooldownTime = 2.0f;   // The length of time between successive shots, in seconds.
     public float range = 20.0f;
     public float bulletForce = 1.0f;
+    public bool autoDespawn = true; // drops and despawns gun automatically when out of bullets/not picked up
+    public float timeTillDespawn = 3.0f;
 
+    protected GunSpawner spawner;  // the spawner that spawned this gun
     protected AudioSource audioSource;
     protected bool isFiring;  // true when gun is currently firing; this length of time is cooldownTime
     protected bool wasDropped; // true when the gun is dropped 
-
-    protected override void Start()
-    {
-        base.Start();
-        audioSource = GetComponent<AudioSource>();
-        if (!audioSource)
-        {
-            Debug.LogError("No Audio Source component found in " + gameObject.name + "!");
-        }
-        
-    }
-
-
-
-    protected virtual void Drop(Hand hand)
-    {
-        wasDropped = true;
-        currentHand.DetachObject(gameObject, false);
-        //Destroy(gameObject, 2.0f); // GunSpawner will handle this!
-    }
+    protected bool wasEverEquipped = false;
 
     public virtual void Fire()
     {
@@ -90,6 +74,23 @@ public class Gun : EquippableSkillItem {
                 }
             }
         }
+    }
+    public void SetSpawner(GunSpawner spawner)
+    {
+        this.spawner = spawner;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        audioSource = GetComponent<AudioSource>();
+        if (!audioSource)
+        {
+            Debug.LogError("No Audio Source component found in " + gameObject.name + "!");
+        }
+
+        if (autoDespawn)
+            StartCoroutine(StartAutoDespawn(timeTillDespawn));   
     }
 
     protected virtual IEnumerator Shoot()
@@ -149,18 +150,36 @@ public class Gun : EquippableSkillItem {
         }
     }
 
-    public virtual bool isEmptyOrDropped()
+    protected override void OnAttachedToHand(Hand hand)
     {
-        return wasDropped || remainingBullets == 0;
+        base.OnAttachedToHand(hand);
+        wasEverEquipped = true;
     }
 
-    private void OnDestroy()
+    protected IEnumerator StartAutoDespawn(float despawnTime)
     {
+        yield return new WaitForSeconds(despawnTime);
+        if(!wasEverEquipped)
+            Drop(currentHand, 0.0f);
+    }
+
+    // Disallows equipping of this gun, as well as detaches and destroys it.
+    protected virtual void Drop(Hand hand, float destroyTime = 1.5f)
+    {
+        wasDropped = true;
         if (currentHand)
         {
             currentHand.DetachObject(gameObject, false);
         }
+        if (spawner)
+            spawner.DeregisterGun(this);
+        Destroy(gameObject, destroyTime);
     }
 
+    protected void OnDestroy()
+    {
+        // not sure if this is necessary, but just in case.
+        StopAllCoroutines();
+    }
 }
 
