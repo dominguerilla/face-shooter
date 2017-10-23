@@ -11,9 +11,23 @@ labels:
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
+    100000: Barrels
+    100002: //RootNode
+    100004: Gatling_Shell
+    400000: Barrels
+    400002: //RootNode
+    400004: Gatling_Shell
+    2300000: Barrels
+    2300002: //RootNode
+    2300004: Gatling_Shell
+    3300000: Barrels
+    3300002: //RootNode
+    3300004: Gatling_Shell
     4300000: Gun
     4300002: Barrels
     4300004: Gatling_Shell
+    7400000: Shoot
+    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0

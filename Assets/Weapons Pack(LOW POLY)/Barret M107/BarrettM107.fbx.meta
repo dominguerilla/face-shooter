@@ -14,10 +14,28 @@ labels:
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
+    100000: Barrett_Magazine
+    100002: //RootNode
+    100004: Lever
+    100006: M107_Shell
+    400000: Barrett_Magazine
+    400002: //RootNode
+    400004: Lever
+    400006: M107_Shell
+    2300000: Barrett_Magazine
+    2300002: //RootNode
+    2300004: Lever
+    2300006: M107_Shell
+    3300000: Barrett_Magazine
+    3300002: //RootNode
+    3300004: Lever
+    3300006: M107_Shell
     4300000: BarrettM107
     4300002: Barrett_Magazine
     4300004: Lever
     4300006: M107_Shell
+    7400000: Shoot
+    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0

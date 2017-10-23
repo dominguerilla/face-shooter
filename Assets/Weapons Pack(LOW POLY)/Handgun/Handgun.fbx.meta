@@ -10,10 +10,28 @@ labels:
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
+    100000: //RootNode
+    100002: Handgun_Shell
+    100004: Magazine
+    100006: Slide
+    400000: //RootNode
+    400002: Handgun_Shell
+    400004: Magazine
+    400006: Slide
+    2300000: //RootNode
+    2300002: Handgun_Shell
+    2300004: Magazine
+    2300006: Slide
+    3300000: //RootNode
+    3300002: Handgun_Shell
+    3300004: Magazine
+    3300006: Slide
     4300000: Gun
     4300002: Slide
     4300004: Magazine
     4300006: Handgun_Shell
+    7400000: Shoot
+    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0

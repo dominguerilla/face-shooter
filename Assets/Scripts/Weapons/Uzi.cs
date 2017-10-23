@@ -11,7 +11,7 @@ public class Uzi : Gun {
         set { }
     }
 
-    Animation anim;
+    Animation anim; 
 
     protected override void Start()
     {
@@ -35,11 +35,18 @@ public class Uzi : Gun {
         }
     }
 
-    // TODO: make it so that this doesn't fire while you're equipping it
     protected override IEnumerator Equipping()
     {
         isBeingPickedUp = true;
-        yield return new WaitForEndOfFrame();
-        isBeingPickedUp = false;
+        while (true)
+        {
+            if (currentHand != null && currentHand.controller != null && currentHand.controller.GetPressUp(ActivateSkillButton))
+            {
+                isBeingPickedUp = false;
+                break;
+            }
+            yield return new WaitForEndOfFrame();
+        }
     }
+
 }

@@ -12,9 +12,24 @@ labels:
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
+    100000: HEDP_Rocket
+    100002: //RootNode
+    100004: Shell2
+    100006: Shotgun_Shell
+    400000: HEDP_Rocket
+    400002: //RootNode
+    400004: Shell2
+    400006: Shotgun_Shell
+    2300000: HEDP_Rocket
+    2300002: Shell2
+    2300004: Shotgun_Shell
+    3300000: HEDP_Rocket
+    3300002: Shell2
+    3300004: Shotgun_Shell
     4300000: Shell2
     4300002: Shotgun_Shell
     4300004: HEDP_Rocket
+    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
