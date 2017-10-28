@@ -12,7 +12,7 @@ public class Wave {
     public GameObject FaceEnemyPrefab;
     public GameObject target;
 
-    public FaceEnemySpawner.SPAWN_PATTERNS SpawnPattern;
+    public Positioner.SPAWN_PATTERNS SpawnPattern;
     public int numberOfEnemies = 3;
     public float activeDelayTime;
     // Sphere spawning stuff
@@ -21,7 +21,7 @@ public class Wave {
     // Line spawning stuff
     public float maxLineLength = 10.0f;
 
-    public FaceEnemySpawner.SPAWN_BEHAVIOURS SpawnBehaviour;
+    public FaceEnemyBehaviours.SPAWN_BEHAVIOURS SpawnBehaviour;
     public float attackSpeed = 10.0f;
     public float stoppingDistance = 0.5f;
     public float timeAsleep = 1.0f;

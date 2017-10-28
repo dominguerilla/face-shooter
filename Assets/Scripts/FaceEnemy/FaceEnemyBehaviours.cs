@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class FaceEnemyBehaviours  {
-
+    public enum SPAWN_BEHAVIOURS
+    {
+        WAKE_THEN_ATTACK,
+        TRAVEL_BACK_AND_FORTH_THEN_ATTACK
+    }
 
     static void SwitchToRandomFace(FaceEnemy face, Material[] mats)
     {

@@ -15,8 +15,5 @@ public class TestCampaign2 : Campaign
     public float timeBetweenWaves = 7.0f;
 
     // Use this for initialization
-    void Start()
-    {
-        
-    }
+
 }
