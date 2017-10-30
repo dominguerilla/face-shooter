@@ -11,9 +11,8 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public abstract class Campaign : MonoBehaviour{
 
-    public Wave[] Waves;
-    public FaceEnemy faceEnemyPrefab;
     public FaceEnemySpawner spawner;
+    public Wave[] Waves;
 
     protected Queue<Vector3> spawnPositions;
     protected Positioner positioner;
