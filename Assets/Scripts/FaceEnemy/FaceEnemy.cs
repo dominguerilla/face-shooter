@@ -9,7 +9,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     public GameObject target;
     public float timeAsleep = 11.0f;
     public float timeAwake = 2.0f;
-    public float attackSpeed = 10.0f;
+    public float chargeSpeed = 10.0f;
     public float stoppingDistance = 0.5f;
 
     // This enemy will spawn from the ground (spawningMat), stay still for a few seconds (awakeMat), and then charge at the target (chargingMat)

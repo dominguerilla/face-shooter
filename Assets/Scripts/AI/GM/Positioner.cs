@@ -10,6 +10,9 @@ public class Positioner
         VERTICAL_LINE
     }
 
+    /// <summary>
+    /// Returns a queue of Vector3 positions relative to spawnerPosition, which are based on the given spawn pattern in the Wave.
+    /// </summary>
     public Queue<Vector3> GetPositions(Wave wave, Vector3 spawnerPosition)
     {
         switch (wave.SpawnPattern)

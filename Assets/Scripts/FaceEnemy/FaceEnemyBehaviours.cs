@@ -27,7 +27,7 @@ public static class FaceEnemyBehaviours  {
         // move FaceEnemy towards target
         while (Vector3.Distance(face.transform.position, target) > face.stoppingDistance)
         {
-            face.transform.position = Vector3.MoveTowards(face.transform.position, target, face.attackSpeed * Time.deltaTime);
+            face.transform.position = Vector3.MoveTowards(face.transform.position, target, face.chargeSpeed * Time.deltaTime);
             yield return null;
         }
     }
