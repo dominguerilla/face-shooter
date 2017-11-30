@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class FaceEnemyBehaviours  {
-
+    public enum SPAWN_BEHAVIOURS
+    {
+        WAKE_THEN_ATTACK,
+        TRAVEL_BACK_AND_FORTH_THEN_ATTACK
+    }
 
     static void SwitchToRandomFace(FaceEnemy face, Material[] mats)
     {
@@ -23,7 +27,7 @@ public static class FaceEnemyBehaviours  {
         // move FaceEnemy towards target
         while (Vector3.Distance(face.transform.position, target) > face.stoppingDistance)
         {
-            face.transform.position = Vector3.MoveTowards(face.transform.position, target, face.attackSpeed * Time.deltaTime);
+            face.transform.position = Vector3.MoveTowards(face.transform.position, target, face.chargeSpeed * Time.deltaTime);
             yield return null;
         }
     }

@@ -36,6 +36,7 @@ public class GameMaster : MonoBehaviour {
 
     public Campaign campaign;
     public FaceEnemySpawner spawner;
+    
 
     private void Start()
     {
@@ -47,41 +48,5 @@ public class GameMaster : MonoBehaviour {
                 Debug.LogError("No Campaign found on " + gameObject.name + "!");
             }
         }
-
-        
     }
-
-    public void StartCampaign()
-    {
-        StartCoroutine(CampaignWaves());
-    }
-
-    IEnumerator CampaignWaves()
-    {
-        foreach(Wave wave in campaign.Waves)
-        {
-            spawner.SetAttributes(wave);
-            spawner.SpawnFaces();
-            // wait till all enemies are killed
-            List<FaceEnemy> enemies = spawner.getSpawnedEnemies();
-            while (true)
-            {
-                foreach(FaceEnemy enemy in enemies)
-                {
-                    if(enemy == null)
-                    {
-                        enemies.Remove(enemy);
-                        break;
-                    }
-                }
-                if(enemies.Count == 0)
-                {
-                    break;
-                }
-                yield return new WaitForEndOfFrame();
-            }
-            spawner.ResetSpawner();
-        }
-    }
-
 }

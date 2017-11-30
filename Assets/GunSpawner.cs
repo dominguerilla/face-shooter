@@ -66,5 +66,11 @@ public class GunSpawner : MonoBehaviour {
         float deltaZ = Random.Range(-maxTrajectoryDeviation.z, maxTrajectoryDeviation.z);
         Vector3 deviation = new Vector3(deltaX, deltaY, deltaZ);
         gunBody.AddForce(transform.TransformDirection(Vector3.up + deviation) * launchForce);
+
+        deltaX = Random.Range(-maxTrajectoryDeviation.x, maxTrajectoryDeviation.x);
+        deltaY = Random.Range(-maxTrajectoryDeviation.y, maxTrajectoryDeviation.y);
+        deltaZ = Random.Range(-maxTrajectoryDeviation.z, maxTrajectoryDeviation.z);
+        deviation = new Vector3(deltaX, deltaY, deltaZ);
+        gunBody.AddRelativeTorque(deviation * launchForce);
     }
 }
