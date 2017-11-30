@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using Valve.VR.InteractionSystem;
 
-[RequireComponent(typeof(LinearMapping))]
 public class Switch : MonoBehaviour {
 
     public bool activateOnStart = false;
