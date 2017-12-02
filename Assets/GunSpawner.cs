@@ -1,15 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunSpawner : MonoBehaviour {
+public class GunSpawner : EntitySpawner {
 
-    public bool activateOnStart = false;
-    public GameObject[] GunPrefabs;
     public float launchForce = 5.0f;
-    public float timeBetweenSpawns = 3.0f;
     public float spawnDisplacement = 1.0f;
-    public float maxGunsSpawned = 1;
     public Vector3 maxTrajectoryDeviation = new Vector3(0.1f, 0.1f, 0.1f);
 
     List<Gun> spawnedGuns;
@@ -33,7 +30,7 @@ public class GunSpawner : MonoBehaviour {
         spawnedGuns.Remove(gun);
     }
 
-    public void StartSpawning()
+    public override void StartSpawning()
     {
         if (!started)
         {
@@ -46,7 +43,7 @@ public class GunSpawner : MonoBehaviour {
         started = true;
         while (true)
         {
-            if(spawnedGuns.Count != maxGunsSpawned)
+            if(spawnedGuns.Count != maxEntitiesSpawned)
                 StartCoroutine(SpawnGun());
             yield return new WaitForSeconds(timeBetweenSpawns);
         }
@@ -54,23 +51,25 @@ public class GunSpawner : MonoBehaviour {
 
     IEnumerator SpawnGun()
     {   
-        int index = Random.Range(0, GunPrefabs.Length);
-        GameObject gunObj = Instantiate(GunPrefabs[index], this.transform.position + (Vector3.up * spawnDisplacement), this.transform.rotation);
+        int index = UnityEngine.Random.Range(0, SpawnEntities.Length);
+        GameObject gunObj = Instantiate(SpawnEntities[index], this.transform.position + (Vector3.up * spawnDisplacement), UnityEngine.Random.rotation);
         Gun gun = gunObj.GetComponent<Gun>();
         gun.SetSpawner(this);
         spawnedGuns.Add(gun);
         Rigidbody gunBody = gunObj.GetComponent<Rigidbody>();
         yield return new WaitForFixedUpdate();
-        float deltaX = Random.Range(-maxTrajectoryDeviation.x, maxTrajectoryDeviation.x);
-        float deltaY = Random.Range(-maxTrajectoryDeviation.y, maxTrajectoryDeviation.y);
-        float deltaZ = Random.Range(-maxTrajectoryDeviation.z, maxTrajectoryDeviation.z);
+        float deltaX = UnityEngine.Random.Range(-maxTrajectoryDeviation.x, maxTrajectoryDeviation.x);
+        float deltaY = UnityEngine.Random.Range(-maxTrajectoryDeviation.y, maxTrajectoryDeviation.y);
+        float deltaZ = UnityEngine.Random.Range(-maxTrajectoryDeviation.z, maxTrajectoryDeviation.z);
         Vector3 deviation = new Vector3(deltaX, deltaY, deltaZ);
         gunBody.AddForce(transform.TransformDirection(Vector3.up + deviation) * launchForce);
 
-        deltaX = Random.Range(-maxTrajectoryDeviation.x, maxTrajectoryDeviation.x);
-        deltaY = Random.Range(-maxTrajectoryDeviation.y, maxTrajectoryDeviation.y);
-        deltaZ = Random.Range(-maxTrajectoryDeviation.z, maxTrajectoryDeviation.z);
+        deltaX = UnityEngine.Random.Range(-maxTrajectoryDeviation.x, maxTrajectoryDeviation.x);
+        deltaY = UnityEngine.Random.Range(-maxTrajectoryDeviation.y, maxTrajectoryDeviation.y);
+        deltaZ = UnityEngine.Random.Range(-maxTrajectoryDeviation.z, maxTrajectoryDeviation.z);
         deviation = new Vector3(deltaX, deltaY, deltaZ);
         gunBody.AddRelativeTorque(deviation * launchForce);
     }
+
+
 }
