@@ -10,7 +10,6 @@ public class GunSpawner : EntitySpawner {
     public Vector3 maxTrajectoryDeviation = new Vector3(0.1f, 0.1f, 0.1f);
 
     List<Gun> spawnedGuns;
-    bool started;
 
 	void Start () {
         spawnedGuns = new List<Gun>();
@@ -30,32 +29,29 @@ public class GunSpawner : EntitySpawner {
         spawnedGuns.Remove(gun);
     }
 
-    public override void StartSpawning()
-    {
-        if (!started)
-        {
-            StartCoroutine(SpawnGuns());
-        }
-    }
 
-    IEnumerator SpawnGuns()
+    public override IEnumerator SpawnEntities()
     {
         started = true;
         while (true)
         {
             if(spawnedGuns.Count != maxEntitiesSpawned)
-                StartCoroutine(SpawnGun());
+                StartCoroutine(SpawnEntity());
             yield return new WaitForSeconds(timeBetweenSpawns);
         }
     }
 
-    IEnumerator SpawnGun()
+    public override IEnumerator SpawnEntity()
     {   
-        int index = UnityEngine.Random.Range(0, SpawnEntities.Length);
-        GameObject gunObj = Instantiate(SpawnEntities[index], this.transform.position + (Vector3.up * spawnDisplacement), UnityEngine.Random.rotation);
+        int index = UnityEngine.Random.Range(0, Entities.Length);
+        GameObject gunObj = Instantiate(Entities[index], this.transform.position + (Vector3.up * spawnDisplacement), UnityEngine.Random.rotation);
+
+        // Gun/Gun Spawner initialization
         Gun gun = gunObj.GetComponent<Gun>();
         gun.SetSpawner(this);
         spawnedGuns.Add(gun);
+
+        // Launching the gun with a relatively random direction
         Rigidbody gunBody = gunObj.GetComponent<Rigidbody>();
         yield return new WaitForFixedUpdate();
         float deltaX = UnityEngine.Random.Range(-maxTrajectoryDeviation.x, maxTrajectoryDeviation.x);
@@ -64,6 +60,7 @@ public class GunSpawner : EntitySpawner {
         Vector3 deviation = new Vector3(deltaX, deltaY, deltaZ);
         gunBody.AddForce(transform.TransformDirection(Vector3.up + deviation) * launchForce);
 
+        // Adding a relatively random spin to the gun
         deltaX = UnityEngine.Random.Range(-maxTrajectoryDeviation.x, maxTrajectoryDeviation.x);
         deltaY = UnityEngine.Random.Range(-maxTrajectoryDeviation.y, maxTrajectoryDeviation.y);
         deltaZ = UnityEngine.Random.Range(-maxTrajectoryDeviation.z, maxTrajectoryDeviation.z);
