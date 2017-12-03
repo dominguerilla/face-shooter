@@ -47,7 +47,8 @@ public class starball : MonoBehaviour {
     IEnumerator Despawn(float time)
     {
         yield return new WaitForSeconds(time);
-        spawner.DeregisterStar(this);
+        if(spawner)
+            spawner.DeregisterStar(this);
         Destroy(this.gameObject);
     }
 }
