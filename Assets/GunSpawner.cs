@@ -6,7 +6,6 @@ using UnityEngine;
 public class GunSpawner : EntitySpawner {
 
     public float launchForce = 5.0f;
-    public float spawnDisplacement = 1.0f;
     public Vector3 maxTrajectoryDeviation = new Vector3(0.1f, 0.1f, 0.1f);
 
     List<Gun> spawnedGuns;
@@ -44,7 +43,7 @@ public class GunSpawner : EntitySpawner {
     public override IEnumerator SpawnEntity()
     {   
         int index = UnityEngine.Random.Range(0, Entities.Length);
-        GameObject gunObj = Instantiate(Entities[index], this.transform.position + (Vector3.up * spawnDisplacement), UnityEngine.Random.rotation);
+        GameObject gunObj = Instantiate(Entities[index], this.transform.position + spawnDisplacement, UnityEngine.Random.rotation);
 
         // Gun/Gun Spawner initialization
         Gun gun = gunObj.GetComponent<Gun>();
