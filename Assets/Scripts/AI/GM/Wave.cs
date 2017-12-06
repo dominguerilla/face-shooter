@@ -25,6 +25,8 @@ public class Wave {
     public float maxLineLength = 10.0f;
 
     public FaceEnemyBehaviours.SPAWN_BEHAVIOURS SpawnBehaviour;
+    public float health = 1.0f;
+    public FaceEnemy.COLOR affinity = FaceEnemy.COLOR.NONE;
     public float attackSpeed = 10.0f;
     public float stoppingDistance = 0.5f;
     public float timeAsleep = 1.0f;

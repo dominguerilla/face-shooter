@@ -15,12 +15,14 @@ public class FaceEnemy : MonoBehaviour, IShootable {
 
     public enum COLOR
     {
+        NONE,
         RED,
         BLUE
     }
 
     public GameObject target;
-    public float Health = 1.0f;
+    public float health = 1.0f;
+    public COLOR affinity = COLOR.NONE;
     public float timeAsleep = 11.0f;
     public float timeAwake = 2.0f;
     public float chargeSpeed = 10.0f;
@@ -68,8 +70,8 @@ public class FaceEnemy : MonoBehaviour, IShootable {
 
     public void OnFire(DamageInformation info)
     {
-        Health -= info.damage;
-        if(Health <= 0)
+        health -= info.damage;
+        if(health <= 0)
         {
             StopCoroutine(behavior);
             Destroy(this.gameObject);
