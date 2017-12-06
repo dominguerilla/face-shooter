@@ -34,6 +34,8 @@ public abstract class Campaign : MonoBehaviour{
     public virtual void InitializeEnemy(Wave currentWave, FaceEnemy enemy)
     {
         enemy.target = currentWave.target;
+        enemy.health = currentWave.health;
+        enemy.affinity = currentWave.affinity;
         enemy.timeAsleep = currentWave.timeAsleep;
         enemy.timeAwake = currentWave.timeAwake;
         enemy.chargeSpeed = currentWave.attackSpeed;
