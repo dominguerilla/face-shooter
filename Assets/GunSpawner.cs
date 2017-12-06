@@ -7,6 +7,7 @@ public class GunSpawner : EntitySpawner {
 
     public float launchForce = 5.0f;
     public Vector3 maxTrajectoryDeviation = new Vector3(0.1f, 0.1f, 0.1f);
+    public FaceEnemy.COLOR affinity = FaceEnemy.COLOR.NONE;
 
     List<Gun> spawnedGuns;
 
@@ -48,6 +49,8 @@ public class GunSpawner : EntitySpawner {
         // Gun/Gun Spawner initialization
         Gun gun = gunObj.GetComponent<Gun>();
         gun.SetSpawner(this);
+        if (affinity != FaceEnemy.COLOR.NONE)
+            gun.SetAffinity(affinity);
         spawnedGuns.Add(gun);
 
         // Launching the gun with a relatively random direction

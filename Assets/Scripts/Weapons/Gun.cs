@@ -29,15 +29,15 @@ public class Gun : EquippableSkillItem {
     public float bulletForce = 1.0f;
     public bool autoDespawn = true; // drops and despawns gun automatically when out of bullets/not picked up
     public float timeTillDespawn = 3.0f;
-    public FaceEnemy.COLOR Affinity = FaceEnemy.COLOR.RED;
+    public FaceEnemy.COLOR affinity = FaceEnemy.COLOR.NONE;
 
     protected GunSpawner spawner;  // the spawner that spawned this gun
     protected AudioSource audioSource;
     protected bool isFiring;  // true when gun is currently firing; this length of time is cooldownTime
     protected bool wasDropped; // true when the gun is dropped 
     protected bool wasEverEquipped = false;
-
-    FaceEnemy.DamageInformation damageInfo;
+    protected Light glow;
+    protected FaceEnemy.DamageInformation damageInfo;
 
     public virtual void Fire()
     {
@@ -88,7 +88,7 @@ public class Gun : EquippableSkillItem {
     {
         base.Start();
         damageInfo = new FaceEnemy.DamageInformation();
-        damageInfo.Affinity = Affinity;
+        damageInfo.affinity = affinity;
         damageInfo.damage = damage;
         audioSource = GetComponent<AudioSource>();
         if (!audioSource)
@@ -97,7 +97,31 @@ public class Gun : EquippableSkillItem {
         }
 
         if (autoDespawn)
-            StartCoroutine(StartAutoDespawn(timeTillDespawn));   
+            StartCoroutine(StartAutoDespawn(timeTillDespawn));
+
+        SetAffinity(affinity);
+    }
+
+    public virtual void SetAffinity(FaceEnemy.COLOR color)
+    {
+        affinity = color;
+        Color lightColor;
+        switch (color)
+        {
+            case FaceEnemy.COLOR.BLUE:
+                lightColor = Color.blue;
+                break;
+            case FaceEnemy.COLOR.RED:
+                lightColor = Color.red;
+                break;
+            default:
+                return;
+        }
+        if(!glow)
+            glow = gameObject.AddComponent<Light>();
+        glow.color = lightColor;
+        glow.range = 0.5f;
+        glow.intensity *= 3;
     }
 
     protected virtual IEnumerator Shoot()

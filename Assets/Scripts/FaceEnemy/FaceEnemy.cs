@@ -9,7 +9,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
 
     public struct DamageInformation
     {
-        public COLOR Affinity;
+        public COLOR affinity;
         public float damage;
     }
 
@@ -47,7 +47,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         int index = UnityEngine.Random.Range(0, spawningMats.Length);
         SwitchMaterial(spawningMats[index]);
 
-        InitAffinity();
+        SetAffinity(affinity);
     }
 	
 	// Update is called once per frame
@@ -55,11 +55,12 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         if(target && keepFacingPlayer)
             this.transform.LookAt(target.transform, Vector3.up);
     }
-   
-    void InitAffinity()
+  
+    // public so that the campaign can set affinity 
+    public void SetAffinity(COLOR color)
     {
         Color lightColor;
-        switch (affinity)
+        switch (color)
         {
             case COLOR.BLUE:
                 lightColor = Color.blue;
@@ -74,6 +75,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
 
         glow = gameObject.AddComponent<Light>();
         glow.color = lightColor;
+        glow.intensity *= 3;
     } 
 
     public void Activate()
@@ -85,15 +87,23 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     {
         this.behavior = behavior;
     }
-    
+
     public void SwitchMaterial(Material newMat)
     {
         facePlaneRender.material = newMat;
     }
 
+    // reduced damage if the affinity does not match
     public void OnFire(DamageInformation info)
     {
-        health -= info.damage;
+        float damage = info.damage;
+
+        if(info.affinity != FaceEnemy.COLOR.NONE && info.affinity != affinity)
+        {
+            damage = damage / 2.0f;
+        }
+
+        health -= damage;
         if(health <= 0)
         {
             StopCoroutine(behavior);
