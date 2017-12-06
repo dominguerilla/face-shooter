@@ -33,7 +33,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
 	
 	// Update is called once per frame
 	void Update () {
-        if(keepFacingPlayer)
+        if(target && keepFacingPlayer)
             this.transform.LookAt(target.transform, Vector3.up);
     }
     
