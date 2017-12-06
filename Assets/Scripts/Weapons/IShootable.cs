@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IShootable  {
 
-    void OnFire();
+    void OnFire(FaceEnemy.DamageInformation info);
     
 }

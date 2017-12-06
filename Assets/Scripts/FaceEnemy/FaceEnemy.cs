@@ -6,7 +6,21 @@ using UnityEngine;
 
 public class FaceEnemy : MonoBehaviour, IShootable {
 
+
+    public struct DamageInformation
+    {
+        public COLOR Affinity;
+        public float damage;
+    }
+
+    public enum COLOR
+    {
+        RED,
+        BLUE
+    }
+
     public GameObject target;
+    public float Health = 1.0f;
     public float timeAsleep = 11.0f;
     public float timeAwake = 2.0f;
     public float chargeSpeed = 10.0f;
@@ -52,12 +66,16 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         facePlaneRender.material = newMat;
     }
 
-    public void OnFire()
+    public void OnFire(DamageInformation info)
     {
-        StopCoroutine(behavior);
-        //this.gameObject.SetActive(false);
-        Destroy(this.gameObject);
+        Health -= info.damage;
+        if(Health <= 0)
+        {
+            StopCoroutine(behavior);
+            Destroy(this.gameObject);
+        }
     }
+
 
     private void OnDestroy()
     {

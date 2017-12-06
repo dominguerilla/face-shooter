@@ -22,12 +22,14 @@ public class Gun : EquippableSkillItem {
     public float VibrationLength = 0.25f;
     [Range(0, 1)] public float VibrationStrength; // Strength of vibration when firing.
 
-    public int remainingBullets = 6;       // the number of times you can shoot before the gun drops. Make it -1 for infinite bullets!
+    public float damage = 1.0f;
+    public int bullets = 6;       // the number of times you can shoot before the gun drops. Make it -1 for infinite bullets!
     public float cooldownTime = 2.0f;   // The length of time between successive shots, in seconds.
     public float range = 20.0f;
     public float bulletForce = 1.0f;
     public bool autoDespawn = true; // drops and despawns gun automatically when out of bullets/not picked up
     public float timeTillDespawn = 3.0f;
+    public FaceEnemy.COLOR Affinity = FaceEnemy.COLOR.RED;
 
     protected GunSpawner spawner;  // the spawner that spawned this gun
     protected AudioSource audioSource;
@@ -35,11 +37,13 @@ public class Gun : EquippableSkillItem {
     protected bool wasDropped; // true when the gun is dropped 
     protected bool wasEverEquipped = false;
 
+    FaceEnemy.DamageInformation damageInfo;
+
     public virtual void Fire()
     {
         if (!isFiring)
         {
-            remainingBullets--;
+            bullets--;
             StartCoroutine(Shoot());
 
             int randIndex = Random.Range(0, GunshotSounds.Length - 1);
@@ -54,7 +58,7 @@ public class Gun : EquippableSkillItem {
                 IShootable shootable = hit.collider.GetComponent(typeof(IShootable)) as IShootable;
                 if (shootable != null)
                 {
-                    shootable.OnFire();
+                    shootable.OnFire(damageInfo);
                 }
 
                 if (hit.rigidbody)
@@ -63,7 +67,7 @@ public class Gun : EquippableSkillItem {
                 }
             }
 
-            if (remainingBullets == 0)
+            if (bullets == 0)
             {
                 // out of bullets!
                 // click noise!
@@ -83,6 +87,9 @@ public class Gun : EquippableSkillItem {
     protected override void Start()
     {
         base.Start();
+        damageInfo = new FaceEnemy.DamageInformation();
+        damageInfo.Affinity = Affinity;
+        damageInfo.damage = damage;
         audioSource = GetComponent<AudioSource>();
         if (!audioSource)
         {

@@ -6,7 +6,7 @@ using UnityEngine.AI;
 /// <summary>
 /// The common interface that is used by SpawnPoints to spawn and start the behaviors of monsters.
 /// </summary>
-public abstract class Monster : MonoBehaviour, IFlashable, IShootable {
+public abstract class Monster : MonoBehaviour, IFlashable {
 
     [SerializeField] protected int Health = 1;
     [SerializeField] protected Transform navTarget;         // keeps track of the target; that way, can resume behavior even after being stunned.

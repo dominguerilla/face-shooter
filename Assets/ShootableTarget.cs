@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ShootableTarget : MonoBehaviour, IShootable {
+public class ShootableTarget : MonoBehaviour{
 
     public UnityEvent OnShot;
     public UnityEvent OffShot;

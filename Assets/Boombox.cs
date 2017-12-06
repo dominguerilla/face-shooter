@@ -27,7 +27,7 @@ public class Boombox : MonoBehaviour, IShootable {
             StartCoroutine(activateHorde(activateDelay));
 	}
 
-    public void OnFire()
+    public void OnFire(FaceEnemy.DamageInformation info)
     {
         StartCoroutine(activateHorde(activateDelay));
     }
