@@ -39,12 +39,15 @@ public class FaceEnemy : MonoBehaviour, IShootable {
 
     IEnumerator behavior;
     Renderer facePlaneRender;
+    Light glow;
 
     // Use this for initialization
     void Start () {
         facePlaneRender = GetComponentInChildren<Renderer>();
         int index = UnityEngine.Random.Range(0, spawningMats.Length);
         SwitchMaterial(spawningMats[index]);
+
+        InitAffinity();
     }
 	
 	// Update is called once per frame
@@ -52,7 +55,27 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         if(target && keepFacingPlayer)
             this.transform.LookAt(target.transform, Vector3.up);
     }
-    
+   
+    void InitAffinity()
+    {
+        Color lightColor;
+        switch (affinity)
+        {
+            case COLOR.BLUE:
+                lightColor = Color.blue;
+                break;
+            case COLOR.RED:
+                lightColor = Color.red;
+                break;
+            default:
+                lightColor = Color.white;
+                break;
+        }
+
+        glow = gameObject.AddComponent<Light>();
+        glow.color = lightColor;
+    } 
+
     public void Activate()
     {
         StartCoroutine(behavior);    
