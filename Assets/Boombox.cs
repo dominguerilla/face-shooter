@@ -24,15 +24,20 @@ public class Boombox : MonoBehaviour, IShootable {
         audioSrc = GetComponent<AudioSource>();
 
         if (activateOnStart)
-            StartCoroutine(activateHorde(activateDelay));
+            StartCoroutine(PlayMusic(activateDelay));
 	}
+
+    public void StartMusic()
+    {
+        StartCoroutine(PlayMusic(activateDelay));
+    }
 
     public void OnFire(FaceEnemy.DamageInformation info)
     {
-        StartCoroutine(activateHorde(activateDelay));
+        StartMusic();
     }
 
-    IEnumerator activateHorde(float delay)
+    IEnumerator PlayMusic(float delay)
     {
         if (isActivated)
         {

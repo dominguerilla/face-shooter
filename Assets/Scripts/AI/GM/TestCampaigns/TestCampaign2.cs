@@ -9,11 +9,29 @@ using UnityEngine;
 public class TestCampaign2 : Campaign
 {
 
-    [Header("Monster Specs")]
-    public GameObject monster;
+    public int maxExtraBounces = 3;
 
-    public float timeBetweenWaves = 7.0f;
-
-    // Use this for initialization
-
+    public override void InitializeEnemy(Wave currentWave, FaceEnemy enemy)
+    {
+        enemy.target = currentWave.target;
+        enemy.health = currentWave.health;
+        enemy.affinity = currentWave.affinity;
+        enemy.timeAsleep = currentWave.timeAsleep;
+        enemy.timeAwake = currentWave.timeAwake;
+        enemy.chargeSpeed = currentWave.attackSpeed;
+        enemy.stoppingDistance = currentWave.stoppingDistance;
+        
+        // random number of bounces for enemy
+        if (currentWave.SpawnBehaviour == FaceEnemyBehaviours.SPAWN_BEHAVIOURS.TRAVEL_BACK_AND_FORTH_THEN_ATTACK)
+        {
+            int originalNumBounces = currentWave.numberOfBounces;
+            int numberOfBounces = Random.Range(currentWave.numberOfBounces, currentWave.numberOfBounces + maxExtraBounces);
+            currentWave.numberOfBounces = numberOfBounces;
+            enemy.SetBehavior(GetEnemyBehaviour(enemy, currentWave.SpawnBehaviour, currentWave));
+            currentWave.numberOfBounces = originalNumBounces;
+        }else
+        {
+            enemy.SetBehavior(GetEnemyBehaviour(enemy, currentWave.SpawnBehaviour, currentWave));
+        }
+    }
 }
