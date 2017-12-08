@@ -75,6 +75,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
 
         glow = gameObject.AddComponent<Light>();
         glow.color = lightColor;
+        glow.range = 3.0f;
         glow.intensity *= 3;
     } 
 
