@@ -31,6 +31,7 @@ public class Wave {
     public float stoppingDistance = 0.5f;
     public float timeAsleep = 1.0f;
     public float timeAwake = 1.5f;
+    public float damageDuration = 1.0f;
 
     // for bounce pattern
     [ConditionalHide("SpawnBehaviour", (int)FaceEnemyBehaviours.SPAWN_BEHAVIOURS.TRAVEL_BACK_AND_FORTH_THEN_ATTACK)]

@@ -40,6 +40,7 @@ public abstract class Campaign : MonoBehaviour{
         enemy.timeAwake = currentWave.timeAwake;
         enemy.chargeSpeed = currentWave.attackSpeed;
         enemy.stoppingDistance = currentWave.stoppingDistance;
+        enemy.damageDuration = currentWave.damageDuration;
         enemy.SetBehavior(GetEnemyBehaviour(enemy, currentWave.SpawnBehaviour, currentWave));
     }
 
