@@ -61,7 +61,7 @@ public class FaceEnemySpawner : MonoBehaviour {
         foreach(FaceEnemy enemy in spawnedEnemies)
         {
             enemy.gameObject.SetActive(true);
-            enemy.Activate();
+            enemy.StartBehavior();
         }
     }
 }

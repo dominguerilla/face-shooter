@@ -120,7 +120,7 @@ public class Gun : EquippableSkillItem {
         if(!glow)
             glow = gameObject.AddComponent<Light>();
         glow.color = lightColor;
-        glow.range = 0.5f;
+        glow.range = 0.1f;
         glow.intensity *= 3;
     }
 

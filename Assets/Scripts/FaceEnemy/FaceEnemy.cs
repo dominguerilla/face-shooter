@@ -79,9 +79,14 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         glow.intensity *= 3;
     } 
 
-    public void Activate()
+    public void StartBehavior()
     {
         StartCoroutine(behavior);    
+    }
+
+    public void StopBehavior()
+    {
+        StopCoroutine(behavior);
     }
 
     public void SetBehavior(IEnumerator behavior)
@@ -107,7 +112,6 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         health -= damage;
         if(health <= 0)
         {
-            StopCoroutine(behavior);
             Destroy(this.gameObject);
         }
     }
