@@ -27,6 +27,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     public float timeAwake = 2.0f;
     public float chargeSpeed = 10.0f;
     public float stoppingDistance = 0.5f;
+    public float damageDuration = 1.0f;
 
     // This enemy will spawn from the ground (spawningMat), stay still for a few seconds (awakeMat), and then charge at the target (chargingMat)
     // These materials are what differentiates the different phases.
@@ -99,6 +100,11 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         facePlaneRender.material = newMat;
     }
 
+    public Material GetCurrentFace()
+    {
+        return facePlaneRender.material;
+    }
+
     // reduced damage if the affinity does not match
     public void OnFire(DamageInformation info)
     {
@@ -113,9 +119,20 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         if(health <= 0)
         {
             Destroy(this.gameObject);
+        }else
+        {
+            // damage animation
+            StartCoroutine(StartDamageAnimation());
         }
     }
 
+    IEnumerator StartDamageAnimation()
+    {
+        StopCoroutine(behavior);
+        yield return FaceEnemyBehaviours.StartDamageAnimation(this, damageDuration);
+        StartCoroutine(behavior);
+        yield return null;
+    }
 
     private void OnDestroy()
     {
