@@ -15,12 +15,7 @@ public class TestCampaign2 : Campaign
 
     public override void InitializeEnemy(Wave currentWave, FaceEnemy enemy)
     {
-        enemy.target = currentWave.target;
-        enemy.health = currentWave.health;
-        enemy.timeAsleep = currentWave.timeAsleep;
-        enemy.timeAwake = currentWave.timeAwake;
-        enemy.chargeSpeed = currentWave.attackSpeed;
-        enemy.stoppingDistance = currentWave.stoppingDistance;
+        base.InitializeEnemy(currentWave, enemy);
 
         // random affinity for enemies
         FaceEnemy.COLOR randAffinity = (FaceEnemy.COLOR)UnityEngine.Random.Range(1.0f, Enum.GetValues(typeof(FaceEnemy.COLOR)).Length);
