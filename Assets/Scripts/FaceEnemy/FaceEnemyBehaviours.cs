@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using BehaviorDesigner.Runtime;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -84,6 +85,20 @@ public static class FaceEnemyBehaviours  {
         SwitchToRandomFace(face, face.chargingMats);
         yield return DirectMoveTo(face, target.position);
         Despawn(face);
+    }
+
+    public static ExternalBehaviorTree TravelBackAndForthThenAttack(float radius, int numberOfBounces = 1)
+    {
+        /*
+        bool goingToBouncePoint = true;
+        Vector3 point1 = new Vector3(face.transform.position.x + radius, face.transform.position.y, face.transform.position.z);
+        Vector3 point2 = new Vector3(face.transform.position.x - radius, face.transform.position.y, face.transform.position.z);
+
+        ExternalBehaviorTree tree = null;
+        tree.SetVariableValue("Bounce Point 1", point1);
+        tree.SetVariableValue("Bounce Point 2", point2);
+        */
+        return null;
     }
 
     public static IEnumerator SpiralThenAttack(FaceEnemy face, Transform target, Vector3 spiralCenter)
