@@ -2,11 +2,12 @@ using UnityEngine;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 
+
 public class TransformMoveTowards : Action
 {
     public SharedTransform Target;
-    public float GoalDistance;
-    public float MoveSpeed = 1.0f;
+    public SharedFloat StoppingDistance;
+    public SharedFloat MoveSpeed = 1.0f;
     
 	public override void OnStart()
 	{
@@ -15,9 +16,9 @@ public class TransformMoveTowards : Action
 
 	public override TaskStatus OnUpdate()
 	{
-        if (Vector3.Distance(transform.position, Target.Value.position) > GoalDistance)
+        if (Vector3.Distance(transform.position, Target.Value.position) > StoppingDistance.Value)
         {
-            transform.position = Vector3.MoveTowards(transform.position, Target.Value.position, MoveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, Target.Value.position, MoveSpeed.Value * Time.deltaTime);
             return TaskStatus.Running;
         }
         return TaskStatus.Success;
