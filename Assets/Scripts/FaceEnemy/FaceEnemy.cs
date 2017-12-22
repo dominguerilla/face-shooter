@@ -41,6 +41,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     IEnumerator behavior;
     Renderer facePlaneRender;
     Light glow;
+    bool stunned = false;
 
     // Use this for initialization
     void Start () {
@@ -119,7 +120,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         if(health <= 0)
         {
             Destroy(this.gameObject);
-        }else
+        }else if (!stunned)
         {
             // damage animation
             StartCoroutine(StartDamageAnimation());
@@ -129,8 +130,10 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     IEnumerator StartDamageAnimation()
     {
         StopCoroutine(behavior);
+        stunned = true;
         yield return FaceEnemyBehaviours.StartDamageAnimation(this, damageDuration);
         StartCoroutine(behavior);
+        stunned = false;
         yield return null;
     }
 
