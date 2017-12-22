@@ -6,11 +6,28 @@ using UnityEngine;
 
 public class FaceEnemy : MonoBehaviour, IShootable {
 
+
+    public struct DamageInformation
+    {
+        public COLOR affinity;
+        public float damage;
+    }
+
+    public enum COLOR
+    {
+        NONE,
+        RED,
+        BLUE
+    }
+
     public GameObject target;
+    public float health = 1.0f;
+    public COLOR affinity = COLOR.NONE;
     public float timeAsleep = 11.0f;
     public float timeAwake = 2.0f;
     public float chargeSpeed = 10.0f;
     public float stoppingDistance = 0.5f;
+    public float damageDuration = 1.0f;
 
     // This enemy will spawn from the ground (spawningMat), stay still for a few seconds (awakeMat), and then charge at the target (chargingMat)
     // These materials are what differentiates the different phases.
@@ -23,40 +40,98 @@ public class FaceEnemy : MonoBehaviour, IShootable {
 
     IEnumerator behavior;
     Renderer facePlaneRender;
+    Light glow;
 
     // Use this for initialization
     void Start () {
         facePlaneRender = GetComponentInChildren<Renderer>();
         int index = UnityEngine.Random.Range(0, spawningMats.Length);
         SwitchMaterial(spawningMats[index]);
+
+        SetAffinity(affinity);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if(keepFacingPlayer)
+        if(target && keepFacingPlayer)
             this.transform.LookAt(target.transform, Vector3.up);
     }
-    
-    public void Activate()
+  
+    // public so that the campaign can set affinity 
+    public void SetAffinity(COLOR color)
+    {
+        Color lightColor;
+        switch (color)
+        {
+            case COLOR.BLUE:
+                lightColor = Color.blue;
+                break;
+            case COLOR.RED:
+                lightColor = Color.red;
+                break;
+            default:
+                lightColor = Color.white;
+                break;
+        }
+
+        glow = gameObject.AddComponent<Light>();
+        glow.color = lightColor;
+        glow.range = 3.0f;
+        glow.intensity *= 3;
+    } 
+
+    public void StartBehavior()
     {
         StartCoroutine(behavior);    
+    }
+
+    public void StopBehavior()
+    {
+        StopCoroutine(behavior);
     }
 
     public void SetBehavior(IEnumerator behavior)
     {
         this.behavior = behavior;
     }
-    
+
     public void SwitchMaterial(Material newMat)
     {
         facePlaneRender.material = newMat;
     }
 
-    public void OnFire()
+    public Material GetCurrentFace()
+    {
+        return facePlaneRender.material;
+    }
+
+    // reduced damage if the affinity does not match
+    public void OnFire(DamageInformation info)
+    {
+        float damage = info.damage;
+
+        if(info.affinity != FaceEnemy.COLOR.NONE && info.affinity != affinity)
+        {
+            damage = damage / 2.0f;
+        }
+
+        health -= damage;
+        if(health <= 0)
+        {
+            Destroy(this.gameObject);
+        }else
+        {
+            // damage animation
+            StartCoroutine(StartDamageAnimation());
+        }
+    }
+
+    IEnumerator StartDamageAnimation()
     {
         StopCoroutine(behavior);
-        //this.gameObject.SetActive(false);
-        Destroy(this.gameObject);
+        yield return FaceEnemyBehaviours.StartDamageAnimation(this, damageDuration);
+        StartCoroutine(behavior);
+        yield return null;
     }
 
     private void OnDestroy()

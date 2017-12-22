@@ -53,7 +53,7 @@ public class Turret : MonoBehaviour {
                 IShootable shootable = hit.collider.GetComponent(typeof(IShootable)) as IShootable;
                 if (shootable != null)
                 {
-                    shootable.OnFire();
+                    //shootable.OnFire();
                 }
             }
         }

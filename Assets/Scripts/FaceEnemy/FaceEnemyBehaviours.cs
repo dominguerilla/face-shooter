@@ -32,6 +32,16 @@ public static class FaceEnemyBehaviours  {
         }
     }
 
+    
+    public static IEnumerator StartDamageAnimation(FaceEnemy face, float duration)
+    {
+        Material originalFace = face.GetCurrentFace();
+        SwitchToRandomFace(face, face.spawningMats);
+        yield return new WaitForSeconds(duration);
+        face.SwitchMaterial(originalFace);
+        yield return null;
+    }
+
 
     public static IEnumerator WakeThenAttack(FaceEnemy face, Transform target)
     {

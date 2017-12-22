@@ -25,10 +25,13 @@ public class Wave {
     public float maxLineLength = 10.0f;
 
     public FaceEnemyBehaviours.SPAWN_BEHAVIOURS SpawnBehaviour;
+    public float health = 1.0f;
+    public FaceEnemy.COLOR affinity = FaceEnemy.COLOR.NONE;
     public float attackSpeed = 10.0f;
     public float stoppingDistance = 0.5f;
     public float timeAsleep = 1.0f;
     public float timeAwake = 1.5f;
+    public float damageDuration = 1.0f;
 
     // for bounce pattern
     [ConditionalHide("SpawnBehaviour", (int)FaceEnemyBehaviours.SPAWN_BEHAVIOURS.TRAVEL_BACK_AND_FORTH_THEN_ATTACK)]
