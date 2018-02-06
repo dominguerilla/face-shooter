@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BehaviorDesigner.Runtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,17 +29,20 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     public float chargeSpeed = 10.0f;
     public float stoppingDistance = 0.5f;
     public float damageDuration = 1.0f;
-
+   
     // This enemy will spawn from the ground (spawningMat), stay still for a few seconds (awakeMat), and then charge at the target (chargingMat)
     // These materials are what differentiates the different phases.
     public Material[] spawningMats;
     public Material[] awakeMats;
     public Material[] chargingMats;
 
+    
+    ExternalBehaviorTree currentBehavior;
+    BehaviorTree behavior;
+
     [HideInInspector]
     public bool keepFacingPlayer = true;
 
-    IEnumerator behavior;
     Renderer facePlaneRender;
     Light glow;
     bool stunned = false;
@@ -83,17 +87,17 @@ public class FaceEnemy : MonoBehaviour, IShootable {
 
     public void StartBehavior()
     {
-        StartCoroutine(behavior);    
+        behavior.Start();    
     }
 
     public void StopBehavior()
     {
-        StopCoroutine(behavior);
+        behavior.DisableBehavior();
     }
 
-    public void SetBehavior(IEnumerator behavior)
+    public void SetBehavior(ExternalBehaviorTree behavior)
     {
-        this.behavior = behavior;
+        this.behavior.ExternalBehavior = behavior;
     }
 
     public void SwitchMaterial(Material newMat)
@@ -129,16 +133,12 @@ public class FaceEnemy : MonoBehaviour, IShootable {
 
     IEnumerator StartDamageAnimation()
     {
-        StopCoroutine(behavior);
+        StopBehavior();
         stunned = true;
         yield return FaceEnemyBehaviours.StartDamageAnimation(this, damageDuration);
-        StartCoroutine(behavior);
+        StartBehavior();
         stunned = false;
         yield return null;
     }
 
-    private void OnDestroy()
-    {
-        StopCoroutine(behavior);
-    }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using BehaviorDesigner.Runtime;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,8 +12,16 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public abstract class Campaign : MonoBehaviour{
 
+    public enum Behaviors
+    {
+        BOUNCE_THEN_ATTACK = 1,
+        WAKE_THEN_ATTACK = 2
+    }
+
     public FaceEnemySpawner spawner;
     public Wave[] Waves;
+    public ExternalBehaviorTree[] behaviors;
+    
 
     protected Queue<Vector3> spawnPositions;
     protected Positioner positioner;
@@ -41,7 +50,7 @@ public abstract class Campaign : MonoBehaviour{
         enemy.chargeSpeed = currentWave.attackSpeed;
         enemy.stoppingDistance = currentWave.stoppingDistance;
         enemy.damageDuration = currentWave.damageDuration;
-        enemy.SetBehavior(GetEnemyBehaviour(enemy, currentWave.SpawnBehaviour, currentWave));
+        enemy.SetBehavior(GetBehavior(currentWave.behavior));
     }
 
     public virtual Vector3 GetNextSpawnPosition(Wave currentWave, Vector3 spawnerPosition)
@@ -96,5 +105,10 @@ public abstract class Campaign : MonoBehaviour{
             default:
                 throw new System.NotImplementedException();
         }
+    }
+
+    protected virtual ExternalBehaviorTree GetBehavior(Behaviors behavior)
+    {
+        return behaviors[(int)behavior];
     }
 }

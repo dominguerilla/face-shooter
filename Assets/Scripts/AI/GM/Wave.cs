@@ -24,7 +24,7 @@ public class Wave {
     [ConditionalHide("SpawnPattern", (int)Positioner.SPAWN_PATTERNS.VERTICAL_LINE)]
     public float maxLineLength = 10.0f;
 
-    public FaceEnemyBehaviours.SPAWN_BEHAVIOURS SpawnBehaviour;
+    public Campaign.Behaviors behavior;
     public float health = 1.0f;
     public FaceEnemy.COLOR affinity = FaceEnemy.COLOR.NONE;
     public float attackSpeed = 10.0f;
