@@ -11,6 +11,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     {
         public COLOR affinity;
         public float damage;
+        public RaycastHit hit;
     }
 
     public enum COLOR
@@ -34,6 +35,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     public Material[] spawningMats;
     public Material[] awakeMats;
     public Material[] chargingMats;
+    public ParticleSystem onHitParticles; // needs to be a particle system that exists as a child of the faceenemy
 
     [HideInInspector]
     public bool keepFacingPlayer = true;
@@ -109,8 +111,15 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     // reduced damage if the affinity does not match
     public void OnFire(DamageInformation info)
     {
-        float damage = info.damage;
+        //play the onhit particle animation
+        if (onHitParticles)
+        {
+            Vector3 hitLocation = info.hit.point;
+            onHitParticles.transform.position = hitLocation;
+            onHitParticles.Play();
+        }
 
+        float damage = info.damage;
         if(info.affinity != FaceEnemy.COLOR.NONE && info.affinity != affinity)
         {
             damage = damage / 2.0f;
