@@ -36,6 +36,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     public Material[] awakeMats;
     public Material[] chargingMats;
     public ParticleSystem onHitParticles; // needs to be a particle system that exists as a child of the faceenemy
+    public ParticleSystem onDeathParticles; // see above
 
     [HideInInspector]
     public bool keepFacingPlayer = true;
@@ -44,10 +45,13 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     Renderer facePlaneRender;
     Light glow;
     bool stunned = false;
+    float deathTime = 3.0f; // the amount of time it'll take for the gameobject to be destroyed after death.
+    Collider hitCollider;
 
     // Use this for initialization
     void Start () {
         facePlaneRender = GetComponentInChildren<Renderer>();
+        hitCollider = GetComponent<Collider>();
         int index = UnityEngine.Random.Range(0, spawningMats.Length);
         SwitchMaterial(spawningMats[index]);
 
@@ -128,7 +132,10 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         health -= damage;
         if(health <= 0)
         {
-            Destroy(this.gameObject);
+            facePlaneRender.enabled = false;
+            hitCollider.enabled = false;
+            onDeathParticles.Play();
+            Destroy(this.gameObject, deathTime);
         }else if (!stunned)
         {
             // damage animation
