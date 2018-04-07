@@ -73,6 +73,10 @@ public static class FaceEnemyBehaviours  {
         // initial spawning
         SwitchToRandomFace(face, face.spawningMats);
         yield return new WaitForSeconds(face.timeAsleep);
+        
+        // initial awake
+        SwitchToRandomFace(face, face.awakeMats);
+        yield return new WaitForSeconds(face.timeAwake);
 
         // moving back and forth
         int counter = 0;
