@@ -33,6 +33,7 @@ public class GunSpawner : EntitySpawner {
     public override IEnumerator SpawnEntities()
     {
         started = true;
+        yield return new WaitForSeconds(spawnDelay);
         while (true)
         {
             if(spawnedGuns.Count != maxEntitiesSpawned)
