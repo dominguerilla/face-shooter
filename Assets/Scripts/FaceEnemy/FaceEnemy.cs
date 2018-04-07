@@ -45,7 +45,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     Renderer facePlaneRender;
     Light glow;
     bool stunned = false;
-    float deathTime = 3.0f; // the amount of time it'll take for the gameobject to be destroyed after death.
+    float deathTime = 1.0f; // the amount of time it'll take for the gameobject to be destroyed after death.
     Collider hitCollider;
 
     // Use this for initialization
@@ -56,6 +56,8 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         SwitchMaterial(spawningMats[index]);
 
         SetAffinity(affinity);
+        var main = onDeathParticles.main;
+        main.simulationSpeed = 3.0f;
     }
 	
 	// Update is called once per frame
@@ -132,15 +134,20 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         health -= damage;
         if(health <= 0)
         {
-            facePlaneRender.enabled = false;
-            hitCollider.enabled = false;
-            onDeathParticles.Play();
-            Destroy(this.gameObject, deathTime);
+            Die();
         }else if (!stunned)
         {
             // damage animation
             StartCoroutine(StartDamageAnimation());
         }
+    }
+
+    void Die()
+    {
+            facePlaneRender.enabled = false;
+            hitCollider.enabled = false;
+            onDeathParticles.Play();
+            Destroy(this.gameObject, deathTime);
     }
 
     IEnumerator StartDamageAnimation()
@@ -155,6 +162,6 @@ public class FaceEnemy : MonoBehaviour, IShootable {
 
     private void OnDestroy()
     {
-        StopCoroutine(behavior);
+         //StopCoroutine(behavior);
     }
 }
