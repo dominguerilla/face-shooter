@@ -35,6 +35,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     public Material[] spawningMats;
     public Material[] awakeMats;
     public Material[] chargingMats;
+    public ParticleSystem onSpawnParticles;
     public ParticleSystem onHitParticles; // needs to be a particle system that exists as a child of the faceenemy
     public ParticleSystem onDeathParticles; // see above
 
@@ -58,6 +59,8 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         SetAffinity(affinity);
         var main = onDeathParticles.main;
         main.simulationSpeed = 3.0f;
+        if(onSpawnParticles)
+            onSpawnParticles.Play();
     }
 	
 	// Update is called once per frame
