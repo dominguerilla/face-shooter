@@ -58,6 +58,7 @@ public class Gun : EquippableSkillItem {
                 IShootable shootable = hit.collider.GetComponent(typeof(IShootable)) as IShootable;
                 if (shootable != null)
                 {
+                    damageInfo.hit = hit;
                     shootable.OnFire(damageInfo);
                 }
 

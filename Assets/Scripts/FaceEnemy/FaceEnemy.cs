@@ -11,6 +11,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     {
         public COLOR affinity;
         public float damage;
+        public RaycastHit hit;
     }
 
     public enum COLOR
@@ -34,6 +35,9 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     public Material[] spawningMats;
     public Material[] awakeMats;
     public Material[] chargingMats;
+    public ParticleSystem onSpawnParticles;
+    public ParticleSystem onHitParticles; // needs to be a particle system that exists as a child of the faceenemy
+    public ParticleSystem onDeathParticles; // see above
 
     [HideInInspector]
     public bool keepFacingPlayer = true;
@@ -42,14 +46,21 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     Renderer facePlaneRender;
     Light glow;
     bool stunned = false;
+    float deathTime = 1.0f; // the amount of time it'll take for the gameobject to be destroyed after death.
+    Collider hitCollider;
 
     // Use this for initialization
     void Start () {
         facePlaneRender = GetComponentInChildren<Renderer>();
+        hitCollider = GetComponent<Collider>();
         int index = UnityEngine.Random.Range(0, spawningMats.Length);
         SwitchMaterial(spawningMats[index]);
 
         SetAffinity(affinity);
+        var main = onDeathParticles.main;
+        main.simulationSpeed = 3.0f;
+        if(onSpawnParticles)
+            onSpawnParticles.Play();
     }
 	
 	// Update is called once per frame
@@ -109,8 +120,15 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     // reduced damage if the affinity does not match
     public void OnFire(DamageInformation info)
     {
-        float damage = info.damage;
+        //play the onhit particle animation
+        if (onHitParticles)
+        {
+            Vector3 hitLocation = info.hit.point;
+            onHitParticles.transform.position = hitLocation;
+            onHitParticles.Play();
+        }
 
+        float damage = info.damage;
         if(info.affinity != FaceEnemy.COLOR.NONE && info.affinity != affinity)
         {
             damage = damage / 2.0f;
@@ -119,12 +137,20 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         health -= damage;
         if(health <= 0)
         {
-            Destroy(this.gameObject);
+            Die();
         }else if (!stunned)
         {
             // damage animation
             StartCoroutine(StartDamageAnimation());
         }
+    }
+
+    void Die()
+    {
+            facePlaneRender.enabled = false;
+            hitCollider.enabled = false;
+            onDeathParticles.Play();
+            Destroy(this.gameObject, deathTime);
     }
 
     IEnumerator StartDamageAnimation()
@@ -139,6 +165,6 @@ public class FaceEnemy : MonoBehaviour, IShootable {
 
     private void OnDestroy()
     {
-        StopCoroutine(behavior);
+         //StopCoroutine(behavior);
     }
 }
