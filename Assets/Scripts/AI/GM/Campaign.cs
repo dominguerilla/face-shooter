@@ -12,6 +12,7 @@ using UnityEngine;
 public abstract class Campaign : MonoBehaviour{
 
     public FaceEnemySpawner spawner;
+    public float campaignStartDelay = 11.5f;
     public Wave[] Waves;
 
     protected Queue<Vector3> spawnPositions;
@@ -59,6 +60,7 @@ public abstract class Campaign : MonoBehaviour{
 
     protected virtual IEnumerator CampaignWaves()
     {
+        yield return new WaitForSeconds(campaignStartDelay);
         foreach (Wave wave in Waves)
         {
             spawner.SpawnFaces(wave);
