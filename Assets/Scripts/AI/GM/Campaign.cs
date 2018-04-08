@@ -43,6 +43,7 @@ public abstract class Campaign : MonoBehaviour{
         enemy.stoppingDistance = currentWave.stoppingDistance;
         enemy.damageDuration = currentWave.damageDuration;
         enemy.SetBehavior(GetEnemyBehaviour(enemy, currentWave.SpawnBehaviour, currentWave));
+        enemy.bouncesRemaining = currentWave.numberOfBounces;
     }
 
     public virtual Vector3 GetNextSpawnPosition(Wave currentWave, Vector3 spawnerPosition)
@@ -94,7 +95,7 @@ public abstract class Campaign : MonoBehaviour{
             case FaceEnemyBehaviours.SPAWN_BEHAVIOURS.WAKE_THEN_ATTACK:
                 return FaceEnemyBehaviours.WakeThenAttack(enemy, enemy.target.transform);
             case FaceEnemyBehaviours.SPAWN_BEHAVIOURS.TRAVEL_BACK_AND_FORTH_THEN_ATTACK:
-                return FaceEnemyBehaviours.TravelBackAndForthThenAttack(enemy, enemy.target.transform, currentWave.bounceRadius, currentWave.numberOfBounces);
+                return FaceEnemyBehaviours.TravelBackAndForthThenAttack(enemy, enemy.target.transform, currentWave.bounceRadius);
             default:
                 throw new System.NotImplementedException();
         }

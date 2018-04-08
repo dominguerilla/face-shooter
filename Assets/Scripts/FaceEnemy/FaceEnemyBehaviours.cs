@@ -36,7 +36,7 @@ public static class FaceEnemyBehaviours  {
     public static IEnumerator StartDamageAnimation(FaceEnemy face, float duration)
     {
         Material originalFace = face.GetCurrentFace();
-        SwitchToRandomFace(face, face.spawningMats);
+        SwitchToRandomFace(face, face.awakeMats);
         yield return new WaitForSeconds(duration);
         face.SwitchMaterial(originalFace);
         yield return null;
@@ -58,11 +58,9 @@ public static class FaceEnemyBehaviours  {
 
     /// <summary>
     /// Moves the face back and forth around its bounce point, then makes it attack the target once the max
-    /// number of bounces has been reached.
-    /// 
-    /// Set it to -1 so that it bounces forever!
+    /// number of bounces has been reached. The number of bounces is stored in the FaceEnemy.
     /// </summary>
-    public static IEnumerator TravelBackAndForthThenAttack(FaceEnemy face, Transform target, float radius, int numberOfBounces = 1)
+    public static IEnumerator TravelBackAndForthThenAttack(FaceEnemy face, Transform target, float radius)
     {
         bool goingToBouncePoint = true;
         Vector3 point1 = new Vector3(face.transform.position.x + radius, face.transform.position.y, face.transform.position.z);
@@ -79,16 +77,14 @@ public static class FaceEnemyBehaviours  {
         yield return new WaitForSeconds(face.timeAwake);
 
         // moving back and forth
-        int counter = 0;
-        while (counter != numberOfBounces)
-        {
+        int numberOfBounces = face.bouncesRemaining;
+        for(; face.bouncesRemaining > 0; face.bouncesRemaining--) {
             SwitchToRandomFace(face, face.awakeMats);
 
             Vector3 destination = goingToBouncePoint ? point2 : point1;
             yield return DirectMoveTo(face, destination);
             goingToBouncePoint = !goingToBouncePoint;
 
-            counter++;
         }
 
         SwitchToRandomFace(face, face.chargingMats);
