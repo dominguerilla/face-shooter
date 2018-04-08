@@ -43,6 +43,8 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     public bool keepFacingPlayer = true;
 
     IEnumerator behavior;
+    [HideInInspector]
+    public int bouncesRemaining = 0; // used to remember state of number of bounces
     Renderer facePlaneRender;
     Light glow;
     bool stunned = false;
