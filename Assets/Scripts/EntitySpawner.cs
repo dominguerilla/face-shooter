@@ -52,6 +52,11 @@ public abstract class EntitySpawner : MonoBehaviour {
     public float spawnDelay = 0.0f;
 
     /// <summary>
+    /// Particles that appear while the spawner is currently spawning.
+    /// </summary>
+    public ParticleSystem spawningParticles;
+
+    /// <summary>
     /// Called by any external object to make the spawner start spawning.
     /// Usually, calls some private IEnumerator method that repeatedly calls SpawnEntity().
     /// </summary>
@@ -68,6 +73,8 @@ public abstract class EntitySpawner : MonoBehaviour {
         started = true;
 
         yield return new WaitForSeconds(spawnDelay);
+        if(spawningParticles)
+            spawningParticles.Play();
         while (true)
         {
             if (spawnedEntities.Count != maxEntitiesSpawned)

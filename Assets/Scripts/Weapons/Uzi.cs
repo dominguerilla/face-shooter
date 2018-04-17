@@ -17,7 +17,6 @@ public class Uzi : Gun {
     {
         base.Start();
         anim = GetComponent<Animation>();
-        anim["Shoot"].wrapMode = WrapMode.Once; 
     }
 
     // this one is automatic fire!
