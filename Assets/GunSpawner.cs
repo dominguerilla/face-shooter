@@ -12,6 +12,13 @@ public class GunSpawner : EntitySpawner {
 
 	void Start () {
         spawnedEntities = new List<GameObject>();
+
+        Campaign sceneCampaign = GameObject.FindObjectOfType<Campaign>();
+        if(sceneCampaign == null)
+            Debug.Log("No campaign found in scene");
+        else
+            spawnDelay = sceneCampaign.gunSpawnStartDelay;
+
         if (activateOnStart)
             StartSpawning();
 	}

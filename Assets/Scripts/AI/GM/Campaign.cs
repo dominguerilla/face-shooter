@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// A collection of Wave specifications to spawn Monsters in a certain way.
+/// A collection of Wave specifications to spawn Monsters in a certain way. There should only be one campaign present on every scene!
 /// Requires a FaceEnemySpawner component to be present in the scene.
 /// 
 /// Ideally, campaign designers should only have to inherit this!
@@ -13,6 +13,7 @@ public abstract class Campaign : MonoBehaviour{
 
     public FaceEnemySpawner spawner;
     public float campaignStartDelay = 11.5f;
+    public float gunSpawnStartDelay = 0.0f;
     public Wave[] Waves;
 
     protected Queue<Vector3> spawnPositions;
