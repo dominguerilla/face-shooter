@@ -29,7 +29,15 @@ public class Gun : EquippableSkillItem {
     public float bulletForce = 1.0f;
     public bool autoDespawn = true; // drops and despawns gun automatically when out of bullets/not picked up
     public float timeTillDespawn = 3.0f;
+
+    /// <summary>
+    /// Affinity--guns do more damage to FaceEnemies with the same affinity.
+    /// Each individual gun can have one of three affinities. 
+    /// In affinityMaterials, 0 should be for FaceEnemy.COLOR.NONE, 1 should be FaceEnemy.COLOR.BLUE, and 2 should be FaceEnemy.COLOR.RED
+    /// </summary>
     public FaceEnemy.COLOR affinity = FaceEnemy.COLOR.NONE;
+    public Renderer affinityRenderer;
+    public Material[] affinityMaterials; // different affinity guns get assigned different shaders.
 
     protected GunSpawner spawner;  // the spawner that spawned this gun
     protected AudioSource audioSource;
@@ -105,24 +113,19 @@ public class Gun : EquippableSkillItem {
 
     public virtual void SetAffinity(FaceEnemy.COLOR color)
     {
-        affinity = color;
-        Color lightColor;
+        this.affinity = color;
         switch (color)
         {
             case FaceEnemy.COLOR.BLUE:
-                lightColor = Color.blue;
+                affinityRenderer.material = affinityMaterials[1];
                 break;
             case FaceEnemy.COLOR.RED:
-                lightColor = Color.red;
+                affinityRenderer.material = affinityMaterials[2];
                 break;
             default:
+                affinityRenderer.material = affinityMaterials[0];
                 return;
         }
-        if(!glow)
-            glow = gameObject.AddComponent<Light>();
-        glow.color = lightColor;
-        glow.range = 0.1f;
-        glow.intensity *= 3;
     }
 
     protected virtual IEnumerator Shoot()
