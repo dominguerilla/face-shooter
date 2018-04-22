@@ -19,6 +19,9 @@ public class GunSpawner : EntitySpawner {
         else
             spawnDelay = sceneCampaign.gunSpawnStartDelay;
 
+        if (GameMaster.instance.DEBUG_MODE)
+            spawnDelay = 0.0f;
+
         if (activateOnStart)
             StartSpawning();
 	}

@@ -2,59 +2,67 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Switches between a calming atmosphere (skybox, particles, music) to a fighting one.
+/// </summary>
 [RequireComponent(typeof(AudioSource))]
 public class AmbienceManager : MonoBehaviour {
     
-    public Material Skybox1, Skybox2;
-    public ParticleSystem pSystem1, pSystem2;
-    public AudioClip music; // the ambient music to loop
+    public Material calmSkybox, fightSkybox;
+    public ParticleSystem calmParticles, fightParticles;
+    public AudioClip calmMusic; 
+    public AudioClip fightMusic;
 
-    public bool isSkybox1 = true;
+    public bool isCalm = true;
 
     private AudioSource aSource;
+    private bool DEBUG_MODE;
 
     public void Start() {
+        DEBUG_MODE = GameMaster.instance.DEBUG_MODE;
         aSource = GetComponent<AudioSource>();
-        aSource.clip = music;
-        aSource.loop = true;
-        aSource.Play();
 
-        if(!Skybox1 || !Skybox2 || !pSystem1 || !pSystem2) {
+        if(isCalm)
+            StartCalm();
+        else
+            StartFight();
+
+
+        if(!calmSkybox || !fightSkybox || !calmParticles || !fightParticles) {
             Debug.LogError("Skyboxes and particle systems not set!");
             Destroy(this);
         }
-
-        if(isSkybox1) {
-            RenderSettings.skybox = Skybox1;
-            pSystem1.Play();
-        }else {
-            RenderSettings.skybox = Skybox2;
-            pSystem2.Play();
-        }
     }
 
-    public void ToggleSkyboxes() {
-        if(isSkybox1) {
-            RenderSettings.skybox = Skybox2;
-            pSystem1.Stop();
-            pSystem2.Play();
-            StopMusic();
-            isSkybox1 = false;
+    public void ToggleAmbience() {
+        if(isCalm) {
+            StartFight();
+            isCalm = false;
         }else {
-            RenderSettings.skybox = Skybox1;
-            pSystem2.Stop();
-            pSystem1.Play();
-            StartMusic();
-            isSkybox1 = true;
+            StartCalm();
+            isCalm = true;
         }
-    }    
+    }   
+   
+    private void StartCalm() {
+        RenderSettings.skybox = calmSkybox;
+        fightParticles.Stop();
+        calmParticles.Play();
 
-    public void StartMusic() {
-        if(aSource.clip)
+        aSource.clip = calmMusic;
+        aSource.loop = true;
+        if(!DEBUG_MODE)
             aSource.Play();
     }
 
-    public void StopMusic() {
-        aSource.Stop();
+    private void StartFight() {
+        RenderSettings.skybox = fightSkybox;
+        calmParticles.Stop();
+        fightParticles.Play();
+
+        aSource.clip = fightMusic;
+        aSource.loop = false;
+        if(!DEBUG_MODE)
+            aSource.Play();
     }
 }

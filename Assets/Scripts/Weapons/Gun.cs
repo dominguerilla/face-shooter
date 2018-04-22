@@ -17,6 +17,7 @@ public class Gun : EquippableSkillItem {
     }
     
     public AudioClip[] GunshotSounds;
+    public AudioClip OnEquipSound;
     public Transform firingPoint;       // Where the raycast for bullet collision will be fired from.
     public ParticleSystem muzzleFlash;  // The muzzle flash particle system.
     public float VibrationLength = 0.25f;
@@ -166,9 +167,15 @@ public class Gun : EquippableSkillItem {
     {
         if (!wasDropped && hand.controller != null)
         {
+            // equip the gun
             if (hand.controller.GetPressDown(PickUpButton))
             {
                 StartCoroutine(Equipping());
+                if(OnEquipSound) {
+                    Debug.Log(OnEquipSound.name);
+                    audioSource.clip = OnEquipSound;
+                    audioSource.Play();
+                }
                 hand.AttachObject(gameObject, attachmentFlags, attachmentPoint);
             }
         }

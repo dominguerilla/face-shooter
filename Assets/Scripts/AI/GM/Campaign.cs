@@ -21,6 +21,10 @@ public abstract class Campaign : MonoBehaviour{
 
     protected virtual void Start()
     {
+        if(GameMaster.instance.DEBUG_MODE) {
+            campaignStartDelay = 0.0f;
+            gunSpawnStartDelay = 0.0f;
+        }
         if (!spawner)
         {
             spawner = GameObject.FindObjectOfType<FaceEnemySpawner>();
