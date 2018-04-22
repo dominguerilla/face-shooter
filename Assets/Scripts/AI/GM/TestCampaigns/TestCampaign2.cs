@@ -6,7 +6,7 @@ using System.Linq;
 using System;
 
 /// <summary>
-/// Each wave should only appear after all of the monsters in the previous wave are killed.
+/// This campaign assigns random affinities to spawned enemies, as well as adding a random number of bounces to enemies that have the TRAVEL_BACK_AND_FORTH behavior.
 /// </summary>
 public class TestCampaign2 : Campaign
 {
