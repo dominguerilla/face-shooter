@@ -171,11 +171,6 @@ public class Gun : EquippableSkillItem {
             if (hand.controller.GetPressDown(PickUpButton))
             {
                 StartCoroutine(Equipping());
-                if(OnEquipSound) {
-                    Debug.Log(OnEquipSound.name);
-                    audioSource.clip = OnEquipSound;
-                    audioSource.Play();
-                }
                 hand.AttachObject(gameObject, attachmentFlags, attachmentPoint);
             }
         }
@@ -195,6 +190,11 @@ public class Gun : EquippableSkillItem {
     protected override void OnAttachedToHand(Hand hand)
     {
         base.OnAttachedToHand(hand);
+        if(OnEquipSound) {
+            Debug.Log(OnEquipSound.name);
+            audioSource.clip = OnEquipSound;
+            audioSource.Play();
+        }
         wasEverEquipped = true;
     }
 
