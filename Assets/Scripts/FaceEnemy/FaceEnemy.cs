@@ -37,12 +37,17 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     public Material[] chargingMats;
     [HideInInspector]
     public ParticleSystem onSpawnParticles = null; 
-
-    // the following particles need to already exist as a child of the FaceEnemy prefab
-    public ParticleSystem redSpawnParticles;
-    public ParticleSystem blueSpawnParticles;
+    [HideInInspector]
     public ParticleSystem onHitParticles; 
     public ParticleSystem onDeathParticles; 
+
+    // the following particles need to already exist as a child of the FaceEnemy prefab
+    // the indices of each is as follows:
+    // 0: Particles on spawn
+    // 1: Particles on hit
+    // 2: Particles on death
+    public ParticleSystem[] redParticles;
+    public ParticleSystem[] blueParticles;
 
     [HideInInspector]
     public bool keepFacingPlayer = true;
@@ -84,11 +89,13 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         {
             case COLOR.BLUE:
                 lightColor = Color.blue;
-                onSpawnParticles = blueSpawnParticles;
+                onSpawnParticles = blueParticles[0];
+                onHitParticles = blueParticles[1];
                 break;
             case COLOR.RED:
                 lightColor = Color.red;
-                onSpawnParticles = redSpawnParticles;
+                onSpawnParticles = redParticles[0];
+                onHitParticles = redParticles[1];
                 break;
             default:
                 lightColor = Color.white;
