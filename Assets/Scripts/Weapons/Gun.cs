@@ -16,6 +16,7 @@ public class Gun : EquippableSkillItem {
         }
     }
     
+    [Header("Gun Feel")]
     public AudioClip[] GunshotSounds;
     public AudioClip OnEquipSound;
     public Transform firingPoint;       // Where the raycast for bullet collision will be fired from.
@@ -23,6 +24,7 @@ public class Gun : EquippableSkillItem {
     public float VibrationLength = 0.25f;
     [Range(0, 1)] public float VibrationStrength; // Strength of vibration when firing.
 
+    [Header("Gameplay")]
     public float damage = 1.0f;
     public int bullets = 6;       // the number of times you can shoot before the gun drops. Make it -1 for infinite bullets!
     public float cooldownTime = 2.0f;   // The length of time between successive shots, in seconds.
@@ -36,6 +38,7 @@ public class Gun : EquippableSkillItem {
     /// Each individual gun can have one of three affinities. 
     /// In affinityMaterials, 0 should be for FaceEnemy.COLOR.NONE, 1 should be FaceEnemy.COLOR.BLUE, and 2 should be FaceEnemy.COLOR.RED
     /// </summary>
+    [Header("Affinity")]
     public FaceEnemy.COLOR affinity = FaceEnemy.COLOR.NONE;
     public Renderer affinityRenderer;
     public Material[] affinityMaterials; // different affinity guns get assigned different shaders.
@@ -45,8 +48,25 @@ public class Gun : EquippableSkillItem {
     protected bool isFiring;  // true when gun is currently firing; this length of time is cooldownTime
     protected bool wasDropped; // true when the gun is dropped 
     protected bool wasEverEquipped = false;
-    protected Light glow;
     protected FaceEnemy.DamageInformation damageInfo;
+
+    protected override void Start()
+    {
+        base.Start();
+        damageInfo = new FaceEnemy.DamageInformation();
+        damageInfo.affinity = affinity;
+        damageInfo.damage = damage;
+        audioSource = GetComponent<AudioSource>();
+        if (!audioSource)
+        {
+            Debug.LogError("No Audio Source component found in " + gameObject.name + "!");
+        }
+
+        if (autoDespawn)
+            StartCoroutine(StartAutoDespawn(timeTillDespawn));
+
+        SetAffinity(affinity);
+    }
 
     public virtual void Fire()
     {
@@ -94,23 +114,6 @@ public class Gun : EquippableSkillItem {
         this.spawner = spawner;
     }
 
-    protected override void Start()
-    {
-        base.Start();
-        damageInfo = new FaceEnemy.DamageInformation();
-        damageInfo.affinity = affinity;
-        damageInfo.damage = damage;
-        audioSource = GetComponent<AudioSource>();
-        if (!audioSource)
-        {
-            Debug.LogError("No Audio Source component found in " + gameObject.name + "!");
-        }
-
-        if (autoDespawn)
-            StartCoroutine(StartAutoDespawn(timeTillDespawn));
-
-        SetAffinity(affinity);
-    }
 
     public virtual void SetAffinity(FaceEnemy.COLOR color)
     {
