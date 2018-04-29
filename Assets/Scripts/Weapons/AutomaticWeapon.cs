@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR.InteractionSystem;
 
-public class Uzi : Gun {
+public class AutomaticWeapon : Gun {
 
     public override string attachmentPoint
     {
