@@ -140,8 +140,10 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         if (onHitParticles)
         {
             Vector3 hitLocation = info.hit.point;
-            onHitParticles.transform.position = hitLocation;
-            onHitParticles.Play();
+            GameObject hitParticleObj = GameObject.Instantiate<GameObject>(onHitParticles.gameObject);
+            ParticleSystem hitParticleInstance = hitParticleObj.GetComponent<ParticleSystem>();
+            hitParticleInstance.transform.position = hitLocation;
+            hitParticleInstance.Play();
         }
 
         float damage = info.damage;

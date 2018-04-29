@@ -191,7 +191,6 @@ public class Gun : EquippableSkillItem {
     {
         base.OnAttachedToHand(hand);
         if(OnEquipSound) {
-            Debug.Log(OnEquipSound.name);
             audioSource.clip = OnEquipSound;
             audioSource.Play();
         }
