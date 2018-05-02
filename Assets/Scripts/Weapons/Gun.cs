@@ -42,6 +42,12 @@ public class Gun : EquippableSkillItem {
     public FaceEnemy.COLOR affinity = FaceEnemy.COLOR.NONE;
     public Renderer affinityRenderer;
     public Material[] affinityMaterials; // different affinity guns get assigned different shaders.
+    // Different particles for different affinities. 
+    // 0: Particles played on equip
+    // 1: Particles played on firing
+    // 2: Particles played on de-equip
+    public ParticleSystem[] RedParticles;
+    public ParticleSystem[] BlueParticles;
 
     protected GunSpawner spawner;  // the spawner that spawned this gun
     protected AudioSource audioSource;
@@ -122,12 +128,15 @@ public class Gun : EquippableSkillItem {
         {
             case FaceEnemy.COLOR.BLUE:
                 affinityRenderer.material = affinityMaterials[1];
+                muzzleFlash = BlueParticles[1];
                 break;
             case FaceEnemy.COLOR.RED:
                 affinityRenderer.material = affinityMaterials[2];
+                muzzleFlash = RedParticles[1];
                 break;
-            default:
+            default: // defaults to RedParticles
                 affinityRenderer.material = affinityMaterials[0];
+                muzzleFlash = RedParticles[1];
                 return;
         }
     }

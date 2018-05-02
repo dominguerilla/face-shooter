@@ -97,8 +97,10 @@ public class FaceEnemy : MonoBehaviour, IShootable {
                 onSpawnParticles = redParticles[0];
                 onHitParticles = redParticles[1];
                 break;
-            default:
+            default: // defaults to showing red particles
                 lightColor = Color.white;
+                onSpawnParticles = redParticles[0];
+                onHitParticles = redParticles[1];
                 break;
         }
 
