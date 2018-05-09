@@ -11,12 +11,9 @@ public class AutomaticWeapon : Gun {
         set { }
     }
 
-    Animation anim; 
-
     protected override void Start()
     {
         base.Start();
-        anim = GetComponent<Animation>();
     }
 
     // this one is automatic fire!
@@ -28,7 +25,6 @@ public class AutomaticWeapon : Gun {
         {
             if (hand.controller.GetPress(ActivateSkillButton) && !isBeingPickedUp) //GetPress instead of GetPressDown
             {
-                anim.Play();
                 OnSkillButton.Invoke();
             }
         }

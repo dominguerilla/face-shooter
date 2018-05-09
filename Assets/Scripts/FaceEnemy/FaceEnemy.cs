@@ -58,7 +58,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     Renderer facePlaneRender;
     Light glow;
     bool stunned = false;
-    float deathTime = 1.0f; // the amount of time it'll take for the gameobject to be destroyed after death.
+    float deathTime = 0.5f; // the amount of time it'll take for the gameobject to be destroyed after death.
     Collider hitCollider;
 
     // Use this for initialization
