@@ -36,6 +36,7 @@ public class GameMaster : MonoBehaviour {
 
     public Campaign campaign;
     public FaceEnemySpawner spawner;
+    public bool DEBUG_MODE;
     
 
     private void Start()

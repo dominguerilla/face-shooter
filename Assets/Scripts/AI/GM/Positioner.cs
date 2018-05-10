@@ -28,21 +28,8 @@ public class Positioner
 
     public Vector3 GetRandomPositionInASphere(Wave wave, Vector3 center)
     {
-        // get a random position away from center, randomly inverting it
-        float x = Random.Range(wave.minSpawnDistanceFromCenter, wave.maxSpawnDistanceFromCenter);
-        float y = Random.Range(wave.minSpawnDistanceFromCenter, wave.maxSpawnDistanceFromCenter);
-        float z = Random.Range(wave.minSpawnDistanceFromCenter, wave.maxSpawnDistanceFromCenter);
-
-        // the following return either 1 or -1
-        int xInvert = Random.Range(0, 2) * 2 - 1;
-        int yInvert = Random.Range(0, 2) * 2 - 1;
-        int zInvert = Random.Range(0, 2) * 2 - 1;
-
-        x *= xInvert;
-        y *= yInvert;
-        z *= zInvert;
-
-        Vector3 pos = new Vector3(center.x + x, center.y + y, center.z + z);
+        float distance = Random.Range(wave.minSpawnDistanceFromCenter, wave.maxSpawnDistanceFromCenter);
+        Vector3 pos = center + Random.insideUnitSphere * distance;
         return pos;
     }
 

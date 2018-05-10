@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// A collection of Wave specifications to spawn Monsters in a certain way.
+/// A collection of Wave specifications to spawn Monsters in a certain way. There should only be one campaign present on every scene!
 /// Requires a FaceEnemySpawner component to be present in the scene.
 /// 
 /// Ideally, campaign designers should only have to inherit this!
@@ -12,6 +12,8 @@ using UnityEngine;
 public abstract class Campaign : MonoBehaviour{
 
     public FaceEnemySpawner spawner;
+    public float campaignStartDelay = 11.5f;
+    public float gunSpawnStartDelay = 0.0f;
     public Wave[] Waves;
 
     protected Queue<Vector3> spawnPositions;
@@ -19,6 +21,10 @@ public abstract class Campaign : MonoBehaviour{
 
     protected virtual void Start()
     {
+        if(GameMaster.instance.DEBUG_MODE) {
+            campaignStartDelay = 0.0f;
+            gunSpawnStartDelay = 0.0f;
+        }
         if (!spawner)
         {
             spawner = GameObject.FindObjectOfType<FaceEnemySpawner>();
@@ -42,6 +48,7 @@ public abstract class Campaign : MonoBehaviour{
         enemy.stoppingDistance = currentWave.stoppingDistance;
         enemy.damageDuration = currentWave.damageDuration;
         enemy.SetBehavior(GetEnemyBehaviour(enemy, currentWave.SpawnBehaviour, currentWave));
+        enemy.bouncesRemaining = currentWave.numberOfBounces;
     }
 
     public virtual Vector3 GetNextSpawnPosition(Wave currentWave, Vector3 spawnerPosition)
@@ -59,6 +66,7 @@ public abstract class Campaign : MonoBehaviour{
 
     protected virtual IEnumerator CampaignWaves()
     {
+        yield return new WaitForSeconds(campaignStartDelay);
         foreach (Wave wave in Waves)
         {
             spawner.SpawnFaces(wave);
@@ -92,7 +100,7 @@ public abstract class Campaign : MonoBehaviour{
             case FaceEnemyBehaviours.SPAWN_BEHAVIOURS.WAKE_THEN_ATTACK:
                 return FaceEnemyBehaviours.WakeThenAttack(enemy, enemy.target.transform);
             case FaceEnemyBehaviours.SPAWN_BEHAVIOURS.TRAVEL_BACK_AND_FORTH_THEN_ATTACK:
-                return FaceEnemyBehaviours.TravelBackAndForthThenAttack(enemy, enemy.target.transform, currentWave.bounceRadius, currentWave.numberOfBounces);
+                return FaceEnemyBehaviours.TravelBackAndForthThenAttack(enemy, enemy.target.transform, currentWave.bounceRadius);
             default:
                 throw new System.NotImplementedException();
         }

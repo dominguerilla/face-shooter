@@ -9,10 +9,19 @@ public class GunSpawner : EntitySpawner {
     public Vector3 maxTrajectoryDeviation = new Vector3(0.1f, 0.1f, 0.1f);
     public FaceEnemy.COLOR affinity = FaceEnemy.COLOR.NONE;
 
-    List<Gun> spawnedGuns;
 
 	void Start () {
-        spawnedGuns = new List<Gun>();
+        spawnedEntities = new List<GameObject>();
+
+        Campaign sceneCampaign = GameObject.FindObjectOfType<Campaign>();
+        if(sceneCampaign == null)
+            Debug.Log("No campaign found in scene");
+        else
+            spawnDelay = sceneCampaign.gunSpawnStartDelay;
+
+        if (GameMaster.instance.DEBUG_MODE)
+            spawnDelay = 0.0f;
+
         if (activateOnStart)
             StartSpawning();
 	}
@@ -26,20 +35,9 @@ public class GunSpawner : EntitySpawner {
     /// <param name="gun"></param>
     public void DeregisterGun(Gun gun)
     {
-        spawnedGuns.Remove(gun);
+        spawnedEntities.Remove(gun.gameObject);
     }
 
-
-    public override IEnumerator SpawnEntities()
-    {
-        started = true;
-        while (true)
-        {
-            if(spawnedGuns.Count != maxEntitiesSpawned)
-                StartCoroutine(SpawnEntity());
-            yield return new WaitForSeconds(timeBetweenSpawns);
-        }
-    }
 
     public override IEnumerator SpawnEntity()
     {   
@@ -51,7 +49,7 @@ public class GunSpawner : EntitySpawner {
         gun.SetSpawner(this);
         if (affinity != FaceEnemy.COLOR.NONE)
             gun.SetAffinity(affinity);
-        spawnedGuns.Add(gun);
+        spawnedEntities.Add(gun.gameObject);
 
         // Launching the gun with a relatively random direction
         Rigidbody gunBody = gunObj.GetComponent<Rigidbody>();

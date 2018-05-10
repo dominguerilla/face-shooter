@@ -47,6 +47,16 @@ public abstract class EntitySpawner : MonoBehaviour {
     public UnityEvent OnSpawn;
 
     /// <summary>
+    /// Time delay before spawning the first object.
+    /// </summary>
+    public float spawnDelay = 0.0f;
+
+    /// <summary>
+    /// Particles that appear while the spawner is currently spawning.
+    /// </summary>
+    public ParticleSystem spawningParticles;
+
+    /// <summary>
     /// Called by any external object to make the spawner start spawning.
     /// Usually, calls some private IEnumerator method that repeatedly calls SpawnEntity().
     /// </summary>
@@ -61,6 +71,10 @@ public abstract class EntitySpawner : MonoBehaviour {
     public virtual IEnumerator SpawnEntities()
     {
         started = true;
+        if(spawningParticles)
+            spawningParticles.Play();
+
+        yield return new WaitForSeconds(spawnDelay);
         while (true)
         {
             if (spawnedEntities.Count != maxEntitiesSpawned)

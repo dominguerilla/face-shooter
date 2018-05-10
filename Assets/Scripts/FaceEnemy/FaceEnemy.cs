@@ -11,6 +11,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     {
         public COLOR affinity;
         public float damage;
+        public RaycastHit hit;
     }
 
     public enum COLOR
@@ -34,21 +35,44 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     public Material[] spawningMats;
     public Material[] awakeMats;
     public Material[] chargingMats;
+    [HideInInspector]
+    public ParticleSystem onSpawnParticles = null; 
+    [HideInInspector]
+    public ParticleSystem onHitParticles; 
+    public ParticleSystem onDeathParticles; 
+
+    // the following particles need to already exist as a child of the FaceEnemy prefab
+    // the indices of each is as follows:
+    // 0: Particles on spawn
+    // 1: Particles on hit
+    // 2: Particles on death
+    public ParticleSystem[] redParticles;
+    public ParticleSystem[] blueParticles;
 
     [HideInInspector]
     public bool keepFacingPlayer = true;
 
     IEnumerator behavior;
+    [HideInInspector]
+    public int bouncesRemaining = 0; // used to remember state of number of bounces
     Renderer facePlaneRender;
     Light glow;
+    bool stunned = false;
+    float deathTime = 0.5f; // the amount of time it'll take for the gameobject to be destroyed after death.
+    Collider hitCollider;
 
     // Use this for initialization
     void Start () {
         facePlaneRender = GetComponentInChildren<Renderer>();
+        hitCollider = GetComponent<Collider>();
         int index = UnityEngine.Random.Range(0, spawningMats.Length);
         SwitchMaterial(spawningMats[index]);
 
         SetAffinity(affinity);
+        var main = onDeathParticles.main;
+        main.simulationSpeed = 3.0f;
+        if(onSpawnParticles)
+            onSpawnParticles.Play();
     }
 	
 	// Update is called once per frame
@@ -65,12 +89,18 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         {
             case COLOR.BLUE:
                 lightColor = Color.blue;
+                onSpawnParticles = blueParticles[0];
+                onHitParticles = blueParticles[1];
                 break;
             case COLOR.RED:
                 lightColor = Color.red;
+                onSpawnParticles = redParticles[0];
+                onHitParticles = redParticles[1];
                 break;
-            default:
+            default: // defaults to showing red particles
                 lightColor = Color.white;
+                onSpawnParticles = redParticles[0];
+                onHitParticles = redParticles[1];
                 break;
         }
 
@@ -108,8 +138,17 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     // reduced damage if the affinity does not match
     public void OnFire(DamageInformation info)
     {
-        float damage = info.damage;
+        //play the onhit particle animation
+        if (onHitParticles)
+        {
+            Vector3 hitLocation = info.hit.point;
+            GameObject hitParticleObj = GameObject.Instantiate<GameObject>(onHitParticles.gameObject);
+            ParticleSystem hitParticleInstance = hitParticleObj.GetComponent<ParticleSystem>();
+            hitParticleInstance.transform.position = hitLocation;
+            hitParticleInstance.Play();
+        }
 
+        float damage = info.damage;
         if(info.affinity != FaceEnemy.COLOR.NONE && info.affinity != affinity)
         {
             damage = damage / 2.0f;
@@ -118,24 +157,34 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         health -= damage;
         if(health <= 0)
         {
-            Destroy(this.gameObject);
-        }else
+            Die();
+        }else if (!stunned)
         {
             // damage animation
             StartCoroutine(StartDamageAnimation());
         }
     }
 
+    void Die()
+    {
+            facePlaneRender.enabled = false;
+            hitCollider.enabled = false;
+            onDeathParticles.Play();
+            Destroy(this.gameObject, deathTime);
+    }
+
     IEnumerator StartDamageAnimation()
     {
         StopCoroutine(behavior);
+        stunned = true;
         yield return FaceEnemyBehaviours.StartDamageAnimation(this, damageDuration);
         StartCoroutine(behavior);
+        stunned = false;
         yield return null;
     }
 
     private void OnDestroy()
     {
-        StopCoroutine(behavior);
+         //StopCoroutine(behavior);
     }
 }
