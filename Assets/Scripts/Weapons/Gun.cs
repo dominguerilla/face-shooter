@@ -48,6 +48,7 @@ public class Gun : EquippableSkillItem {
     // 2: Particles played on de-equip
     public ParticleSystem[] RedParticles;
     public ParticleSystem[] BlueParticles;
+    public ParticleSystem[] PurpleParticles;
 
     protected GunSpawner spawner;  // the spawner that spawned this gun
     protected AudioSource audioSource;
@@ -134,9 +135,9 @@ public class Gun : EquippableSkillItem {
                 affinityRenderer.material = affinityMaterials[2];
                 muzzleFlash = RedParticles[1];
                 break;
-            default: // defaults to RedParticles
+            default: 
                 affinityRenderer.material = affinityMaterials[0];
-                muzzleFlash = RedParticles[1];
+                muzzleFlash = PurpleParticles[1];
                 return;
         }
     }
@@ -166,6 +167,10 @@ public class Gun : EquippableSkillItem {
         {
             if (hand.controller != null)
             {
+                if (hand.controller.GetPressDown(PickUpButton)){
+                    Debug.Log("PERFECT EQUIP!");
+                    SetAffinity(FaceEnemy.COLOR.NONE);
+                }
                 if (hand.controller.GetPress(PickUpButton))
                 {
                     StartCoroutine(Equipping());
