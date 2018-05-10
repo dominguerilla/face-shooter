@@ -35,9 +35,19 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     public Material[] spawningMats;
     public Material[] awakeMats;
     public Material[] chargingMats;
-    public ParticleSystem onSpawnParticles;
-    public ParticleSystem onHitParticles; // needs to be a particle system that exists as a child of the faceenemy
-    public ParticleSystem onDeathParticles; // see above
+    [HideInInspector]
+    public ParticleSystem onSpawnParticles = null; 
+    [HideInInspector]
+    public ParticleSystem onHitParticles; 
+    public ParticleSystem onDeathParticles; 
+
+    // the following particles need to already exist as a child of the FaceEnemy prefab
+    // the indices of each is as follows:
+    // 0: Particles on spawn
+    // 1: Particles on hit
+    // 2: Particles on death
+    public ParticleSystem[] redParticles;
+    public ParticleSystem[] blueParticles;
 
     [HideInInspector]
     public bool keepFacingPlayer = true;
@@ -48,7 +58,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     Renderer facePlaneRender;
     Light glow;
     bool stunned = false;
-    float deathTime = 1.0f; // the amount of time it'll take for the gameobject to be destroyed after death.
+    float deathTime = 0.5f; // the amount of time it'll take for the gameobject to be destroyed after death.
     Collider hitCollider;
 
     // Use this for initialization
@@ -79,12 +89,18 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         {
             case COLOR.BLUE:
                 lightColor = Color.blue;
+                onSpawnParticles = blueParticles[0];
+                onHitParticles = blueParticles[1];
                 break;
             case COLOR.RED:
                 lightColor = Color.red;
+                onSpawnParticles = redParticles[0];
+                onHitParticles = redParticles[1];
                 break;
-            default:
+            default: // defaults to showing red particles
                 lightColor = Color.white;
+                onSpawnParticles = redParticles[0];
+                onHitParticles = redParticles[1];
                 break;
         }
 
@@ -126,8 +142,10 @@ public class FaceEnemy : MonoBehaviour, IShootable {
         if (onHitParticles)
         {
             Vector3 hitLocation = info.hit.point;
-            onHitParticles.transform.position = hitLocation;
-            onHitParticles.Play();
+            GameObject hitParticleObj = GameObject.Instantiate<GameObject>(onHitParticles.gameObject);
+            ParticleSystem hitParticleInstance = hitParticleObj.GetComponent<ParticleSystem>();
+            hitParticleInstance.transform.position = hitLocation;
+            hitParticleInstance.Play();
         }
 
         float damage = info.damage;

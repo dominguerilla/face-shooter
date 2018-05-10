@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR.InteractionSystem;
 
-public class Uzi : Gun {
+public class AutomaticWeapon : Gun {
 
     public override string attachmentPoint
     {
@@ -11,12 +11,9 @@ public class Uzi : Gun {
         set { }
     }
 
-    Animation anim; 
-
     protected override void Start()
     {
         base.Start();
-        anim = GetComponent<Animation>();
     }
 
     // this one is automatic fire!
@@ -28,7 +25,6 @@ public class Uzi : Gun {
         {
             if (hand.controller.GetPress(ActivateSkillButton) && !isBeingPickedUp) //GetPress instead of GetPressDown
             {
-                anim.Play();
                 OnSkillButton.Invoke();
             }
         }

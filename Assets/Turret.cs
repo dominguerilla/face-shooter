@@ -3,33 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// SHOOTS AT ANYTHING SHOOTABLE
+/// Shoots at things using a Gun.
 /// </summary>
 public class Turret : MonoBehaviour {
 
-    public Transform firingPoint;
-    public AudioSource firingSoundSource;
-    public AudioClip[] GunshotSounds;
-
-    public float cooldownTime = 2.0f;
-    public ParticleSystem muzzleFlash;
+    public Gun gun;
 
     bool isFiring;
     bool justLostTarget;
     Transform neutralPosition;
 
-    GameObject currentTarget;
+    public GameObject currentTarget;
 
-    private void Start()
+    private void Awake()
     {
+        if(!gun) {
+            gun = GetComponentInChildren<Gun>();
+            if(!gun) {
+                Debug.LogError("No gun assigned to the turret!");
+                Destroy(this);
+            }
+        }
+
         neutralPosition = transform;
+        
+        // Initialize gun properties
+        gun.GetComponent<Rigidbody>().useGravity = false;
+        gun.autoDespawn = false;
+        gun.bullets = -1; // infinite ammo
+        Collider[] colliders = gun.GetComponents<Collider>();
+        foreach(Collider col in colliders) {
+            col.enabled = false;
+        }
+        
     }
 
+    
     private void Update()
     {
         if (currentTarget)
         {
             transform.LookAt(currentTarget.transform);
+            Fire();
         }else if(justLostTarget)
         {
             transform.rotation = neutralPosition.rotation;
@@ -38,33 +53,9 @@ public class Turret : MonoBehaviour {
 
     public void Fire()
     {
-        if (!isFiring)
-        {
-            StartCoroutine(Shoot());
-            RaycastHit hit;
-
-            int randIndex = Random.Range(0, GunshotSounds.Length - 1);
-            firingSoundSource.clip = GunshotSounds[randIndex];
-            firingSoundSource.Play();
-            muzzleFlash.Play();
-
-            if (Physics.Raycast(firingPoint.position, firingPoint.forward, out hit))
-            {
-                IShootable shootable = hit.collider.GetComponent(typeof(IShootable)) as IShootable;
-                if (shootable != null)
-                {
-                    //shootable.OnFire();
-                }
-            }
-        }
+        gun.Fire();
     }
 
-    IEnumerator Shoot()
-    {
-        isFiring = true;
-        yield return new WaitForSeconds(cooldownTime);
-        isFiring = false;
-    }
 
     private void OnTriggerEnter(Collider other)
     {

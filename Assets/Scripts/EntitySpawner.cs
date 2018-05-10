@@ -71,10 +71,10 @@ public abstract class EntitySpawner : MonoBehaviour {
     public virtual IEnumerator SpawnEntities()
     {
         started = true;
-
-        yield return new WaitForSeconds(spawnDelay);
         if(spawningParticles)
             spawningParticles.Play();
+
+        yield return new WaitForSeconds(spawnDelay);
         while (true)
         {
             if (spawnedEntities.Count != maxEntitiesSpawned)
