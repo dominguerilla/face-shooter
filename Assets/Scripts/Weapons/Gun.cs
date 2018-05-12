@@ -56,6 +56,7 @@ public class Gun : EquippableSkillItem {
     protected bool wasDropped; // true when the gun is dropped 
     protected bool wasEverEquipped = false;
     protected FaceEnemy.DamageInformation damageInfo;
+    protected ParticleSystem OnEquipParticles;
 
     protected override void Start()
     {
@@ -130,14 +131,17 @@ public class Gun : EquippableSkillItem {
             case FaceEnemy.COLOR.BLUE:
                 affinityRenderer.material = affinityMaterials[1];
                 muzzleFlash = BlueParticles[1];
+                OnEquipParticles = null;
                 break;
             case FaceEnemy.COLOR.RED:
                 affinityRenderer.material = affinityMaterials[2];
                 muzzleFlash = RedParticles[1];
+                OnEquipParticles = null;
                 break;
             default: 
                 affinityRenderer.material = affinityMaterials[0];
                 muzzleFlash = PurpleParticles[1];
+                OnEquipParticles = PurpleParticles[0];
                 return;
         }
     }
@@ -167,10 +171,6 @@ public class Gun : EquippableSkillItem {
         {
             if (hand.controller != null)
             {
-                if (hand.controller.GetPressDown(PickUpButton)){
-                    Debug.Log("PERFECT EQUIP!");
-                    SetAffinity(FaceEnemy.COLOR.NONE);
-                }
                 if (hand.controller.GetPress(PickUpButton))
                 {
                     StartCoroutine(Equipping());
@@ -187,6 +187,10 @@ public class Gun : EquippableSkillItem {
             // equip the gun
             if (hand.controller.GetPressDown(PickUpButton))
             {
+                SetAffinity(FaceEnemy.COLOR.NONE);
+                if (OnEquipParticles) {
+                    OnEquipParticles.Play();
+                }
                 StartCoroutine(Equipping());
                 hand.AttachObject(gameObject, attachmentFlags, attachmentPoint);
             }
