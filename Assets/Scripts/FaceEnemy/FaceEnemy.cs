@@ -39,6 +39,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     public ParticleSystem onSpawnParticles = null; 
     [HideInInspector]
     public ParticleSystem onHitParticles; 
+    [HideInInspector]
     public ParticleSystem onDeathParticles; 
 
     // the following particles need to already exist as a child of the FaceEnemy prefab
@@ -60,6 +61,7 @@ public class FaceEnemy : MonoBehaviour, IShootable {
     bool stunned = false;
     float deathTime = 0.5f; // the amount of time it'll take for the gameobject to be destroyed after death.
     Collider hitCollider;
+    bool isDying = false;
 
     // Use this for initialization
     void Start () {
@@ -91,16 +93,19 @@ public class FaceEnemy : MonoBehaviour, IShootable {
                 lightColor = Color.blue;
                 onSpawnParticles = blueParticles[0];
                 onHitParticles = blueParticles[1];
+                onDeathParticles = blueParticles[2];
                 break;
             case COLOR.RED:
                 lightColor = Color.red;
                 onSpawnParticles = redParticles[0];
                 onHitParticles = redParticles[1];
+                onDeathParticles = redParticles[2];
                 break;
             default: // defaults to showing red particles
                 lightColor = Color.white;
                 onSpawnParticles = redParticles[0];
                 onHitParticles = redParticles[1];
+                onDeathParticles = redParticles[2];
                 break;
         }
 
@@ -167,10 +172,13 @@ public class FaceEnemy : MonoBehaviour, IShootable {
 
     void Die()
     {
+        if(!isDying) {
+            isDying = true;
             facePlaneRender.enabled = false;
             hitCollider.enabled = false;
             onDeathParticles.Play();
             Destroy(this.gameObject, deathTime);
+        }
     }
 
     IEnumerator StartDamageAnimation()
