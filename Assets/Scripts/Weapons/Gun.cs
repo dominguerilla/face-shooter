@@ -49,6 +49,7 @@ public class Gun : EquippableSkillItem {
     public ParticleSystem[] RedParticles;
     public ParticleSystem[] BlueParticles;
     public ParticleSystem[] PurpleParticles;
+    public TrailRenderer trail;
 
     protected GunSpawner spawner;  // the spawner that spawned this gun
     protected AudioSource audioSource;
@@ -61,9 +62,7 @@ public class Gun : EquippableSkillItem {
     protected override void Start()
     {
         base.Start();
-        damageInfo = new FaceEnemy.DamageInformation();
-        damageInfo.affinity = affinity;
-        damageInfo.damage = damage;
+        InitializeDamageInfo();
         audioSource = GetComponent<AudioSource>();
         if (!audioSource)
         {
@@ -123,25 +122,35 @@ public class Gun : EquippableSkillItem {
     }
 
 
+    void InitializeDamageInfo() {
+        damageInfo = new FaceEnemy.DamageInformation();
+        damageInfo.affinity = affinity;
+        damageInfo.damage = damage;
+    }
+
     public virtual void SetAffinity(FaceEnemy.COLOR color)
     {
         this.affinity = color;
+        InitializeDamageInfo();
         switch (color)
         {
             case FaceEnemy.COLOR.BLUE:
                 affinityRenderer.material = affinityMaterials[1];
                 muzzleFlash = BlueParticles[1];
                 OnEquipParticles = null;
+                trail.enabled = false;
                 break;
             case FaceEnemy.COLOR.RED:
                 affinityRenderer.material = affinityMaterials[2];
                 muzzleFlash = RedParticles[1];
                 OnEquipParticles = null;
+                trail.enabled = false;
                 break;
             default: 
                 affinityRenderer.material = affinityMaterials[0];
                 muzzleFlash = PurpleParticles[1];
                 OnEquipParticles = PurpleParticles[0];
+                trail.enabled = true;
                 return;
         }
     }
