@@ -48,6 +48,8 @@ public class Gun : EquippableSkillItem {
     // 2: Particles played on de-equip
     public ParticleSystem[] RedParticles;
     public ParticleSystem[] BlueParticles;
+    public ParticleSystem[] PurpleParticles;
+    public TrailRenderer trail;
 
     protected GunSpawner spawner;  // the spawner that spawned this gun
     protected AudioSource audioSource;
@@ -55,13 +57,12 @@ public class Gun : EquippableSkillItem {
     protected bool wasDropped; // true when the gun is dropped 
     protected bool wasEverEquipped = false;
     protected FaceEnemy.DamageInformation damageInfo;
+    protected ParticleSystem OnEquipParticles;
 
     protected override void Start()
     {
         base.Start();
-        damageInfo = new FaceEnemy.DamageInformation();
-        damageInfo.affinity = affinity;
-        damageInfo.damage = damage;
+        InitializeDamageInfo();
         audioSource = GetComponent<AudioSource>();
         if (!audioSource)
         {
@@ -121,22 +122,35 @@ public class Gun : EquippableSkillItem {
     }
 
 
+    void InitializeDamageInfo() {
+        damageInfo = new FaceEnemy.DamageInformation();
+        damageInfo.affinity = affinity;
+        damageInfo.damage = damage;
+    }
+
     public virtual void SetAffinity(FaceEnemy.COLOR color)
     {
         this.affinity = color;
+        InitializeDamageInfo();
         switch (color)
         {
             case FaceEnemy.COLOR.BLUE:
                 affinityRenderer.material = affinityMaterials[1];
                 muzzleFlash = BlueParticles[1];
+                OnEquipParticles = null;
+                trail.enabled = false;
                 break;
             case FaceEnemy.COLOR.RED:
                 affinityRenderer.material = affinityMaterials[2];
                 muzzleFlash = RedParticles[1];
+                OnEquipParticles = null;
+                trail.enabled = false;
                 break;
-            default: // defaults to RedParticles
+            default: 
                 affinityRenderer.material = affinityMaterials[0];
-                muzzleFlash = RedParticles[1];
+                muzzleFlash = PurpleParticles[1];
+                OnEquipParticles = PurpleParticles[0];
+                trail.enabled = true;
                 return;
         }
     }
@@ -182,6 +196,10 @@ public class Gun : EquippableSkillItem {
             // equip the gun
             if (hand.controller.GetPressDown(PickUpButton))
             {
+                SetAffinity(FaceEnemy.COLOR.NONE);
+                if (OnEquipParticles) {
+                    OnEquipParticles.Play();
+                }
                 StartCoroutine(Equipping());
                 hand.AttachObject(gameObject, attachmentFlags, attachmentPoint);
             }
