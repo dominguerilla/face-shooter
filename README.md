@@ -1,4 +1,7 @@
 # face-shooter
+
+![thumbnail](https://raw.githubusercontent.com/dominguerilla/face-shooter/master/Images/Capture.PNG)
+
 A VR shooter game, inspired by the first level of Bayonetta 1. Built for the HTC Vive.
 
 Guns are spawned and launched at the player, who must catch and use them to defend themselves from waves of incoming face monsters. Each gun is either red or blue, and will do more damage to enemies with the same color.
